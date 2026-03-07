@@ -1,0 +1,33 @@
+name: 功能建議（中文）
+description: 建議新功能或改進
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 想解決的問題
+      description: 你想解決什麼問題？
+      placeholder: 我每次都覺得很困擾的是...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 建議方案
+      description: 你希望這個功能怎麼運作？
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 考慮過的替代方案
+      description: 有沒有想過其他做法或替代方案？
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 其他補充
+      description: 任何其他相關的資訊、截圖或範例。
