@@ -23,19 +23,17 @@ Spectra is fully compatible with the OpenSpec data format — any `openspec/` di
 **AI-Assisted Workflow**
 
 - Intelligent scanning for contradictions and gaps across proposals, specs, designs, and tasks
-- Slash commands for Claude Code integration:
+- Skills & Slash commands for Claude Code integration:
 
-| Command            | Description                                           |
+| Skills             | Description                                           |
 | ------------------ | ----------------------------------------------------- |
-| `/spectra:propose` | Create spec documents (proposal, spec, design, tasks) |
-| `/spectra:apply`   | Execute tasks                                         |
-| `/spectra:ingest`  | Restore work-in-progress context or update specs      |
-| `/spectra:archive` | Archive completed specs                               |
-| `/spectra:discuss` | Focused design discussions                            |
-| `/spectra:tdd`     | TDD workflow (Red-Green-Refactor)                     |
-| `/spectra:debug`   | Systematic debugging (max 3 attempts)                 |
-| `/spectra:audit`   | Security audit (3-role parallel analysis on git diff) |
-| `/spectra:ask`     | Query specs with natural language (RAG vector search) |
+| `/spectra-discuss` | Focused design discussions                            |
+| `/spectra-propose` | Create spec documents (proposal, spec, design, tasks) |
+| `/spectra-apply`   | Execute tasks                                         |
+| `/spectra-ingest`  | Restore work-in-progress context or update specs      |
+| `/spectra-archive` | Archive completed specs                               |
+| `/spectra-debug`   | Systematic debugging (max 3 attempts)                 |
+| `/spectra-ask`     | Query specs with natural language (RAG vector search) |
 
 **Vector Search & Q&A**
 
@@ -109,19 +107,17 @@ Spectra 完全相容 OpenSpec 資料格式，由 OpenSpec CLI 建立的 `openspe
 **AI 輔助工作流程**
 
 - 智慧掃描，檢查 Proposal、Spec、Design、Task 之間的矛盾與遺漏
-- 與 Claude Code 整合的 Slash Commands：
+- 與 Claude Code 整合的 Skills & Slash Commands：
 
-| 指令               | 說明                                          |
+| Skills             | 說明                                          |
 | ------------------ | --------------------------------------------- |
-| `/spectra:propose` | 建立規格文件（proposal、spec、design、tasks） |
-| `/spectra:apply`   | 執行任務                                      |
-| `/spectra:ingest`  | 恢復進行中的工作上下文或更新規格              |
-| `/spectra:archive` | 歸檔規格文件                                  |
-| `/spectra:discuss` | 有目標的設計討論                              |
-| `/spectra:tdd`     | TDD 流程（Red-Green-Refactor）                |
-| `/spectra:debug`   | 系統化除錯流程（最多 3 次嘗試）               |
-| `/spectra:audit`   | 安全性審查（3 角色平行分析 git diff）         |
-| `/spectra:ask`     | 以自然語言查詢規格文件（RAG 向量搜尋）        |
+| `/spectra-discuss` | 有目標的設計討論                              |
+| `/spectra-propose` | 建立規格文件（proposal、spec、design、tasks） |
+| `/spectra-apply`   | 執行任務                                      |
+| `/spectra-ingest`  | 恢復進行中的工作上下文或更新規格              |
+| `/spectra-archive` | 歸檔規格文件                                  |
+| `/spectra-debug`   | 系統化除錯流程（最多 3 次嘗試）               |
+| `/spectra-ask`     | 以自然語言查詢規格文件（RAG 向量搜尋）        |
 
 **向量搜尋與問答**
 
