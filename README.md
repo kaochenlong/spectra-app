@@ -68,11 +68,21 @@ Spectra is fully compatible with the OpenSpec data format — any `openspec/` di
 
 - UI available in English, Japanese, Traditional Chinese, and Simplified Chinese
 
+## Install
+
+### Homebrew (macOS)
+
+```sh
+brew install --cask spectra-app
+```
+
 ## Download
 
 Get the latest release for your platform:
 
 **[Download Spectra](https://github.com/kaochenlong/spectra-app/releases)**
+
+Or visit the official website: **[spectra.5xcamp.us](https://spectra.5xcamp.us/)**
 
 ## Platform Support
 
@@ -152,11 +162,21 @@ Spectra 完全相容 OpenSpec 資料格式，由 OpenSpec CLI 建立的 `openspe
 
 - 介面支援英文、日文、繁體中文、簡體中文
 
+## 安裝
+
+### Homebrew (macOS)
+
+```sh
+brew install --cask spectra-app
+```
+
 ## 下載
 
 取得適合你平台的最新版本：
 
 **[下載 Spectra](https://github.com/kaochenlong/spectra-app/releases)**
+
+或前往官方網站：**[spectra.5xcamp.us](https://spectra.5xcamp.us/)**
 
 ## 平台支援
 
