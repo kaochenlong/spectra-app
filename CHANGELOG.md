@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.2.2
+
+- Added Kanban board view with Parked / Todo / Doing columns; drag and drop to change status.
+- Moved the "Workflow" button from the sidebar to next to the logo, keeping the sidebar focused on navigation.
+
+---
+
+- 新增「看板（Kanban）」檢視，以暫存 / 待辦 / 進行中三欄呈現，拖拉可切換狀態。
+- 「流程指引」按鈕從側邊欄移到 Logo 旁邊，側邊欄回歸單純導航功能。
+
 ## 2.2.1
 
 - Redesigned the sidebar.
