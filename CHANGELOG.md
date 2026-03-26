@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.2.1
+
+- Redesigned the sidebar.
+- Added workflow tip feature.
+- Keyboard shortcut hints now use monospace font for better visual consistency.
+- Fixed an issue where some badges were invisible on older macOS (< 13.1) due to unsupported color format in WebKit.
+
+---
+
+- 側邊欄重新設計。
+- 新增工作流程提示功能。
+- 鍵盤快捷鍵提示使用等寬字體，視覺更一致。
+- 修正 舊版 macOS（< 13.1）上部分標籤因 WebKit 不支援色彩格式而無法顯示的問題。
+
 ## 2.2.0
 
 - Added `.spectra.yaml` project config file — app-level settings are now separate from OpenSpec config.
