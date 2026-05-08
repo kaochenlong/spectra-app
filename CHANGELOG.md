@@ -1,5 +1,29 @@
 # Changelog
 
+## 2.3.0
+
+- Workflow tip modal now has a layout reset button — one click undoes an accidental drag.
+- Added `/spectra-drift` to detect drift between a change and the current codebase, scoring time, structure, tasks, and environment dimensions and recommending the next command.
+  - Building on the above, the apply flow now triggers a drift report before resuming tasks, avoiding work on stale changes.
+- Added relocation of changes between the main directory and worktrees — create a worktree or move back to main from the context menu, with confirmation prompts on conflicts.
+- Unified the metadata database at the git commondir so worktrees and the main directory share a single source of truth, avoiding inconsistent change lists across worktrees.
+- `/spectra-propose` adds a reminder to exit Codex Plan Mode and enforces project locale for `tasks.md` headings and descriptions.
+- Fixed change modified time to use artifact file mtime, so recently edited changes no longer look stale due to an unupdated directory mtime.
+- Fixed in-progress changes from worktrees created manually in the terminal not appearing in the main app.
+- Fixed parked changes on disk disappearing when the parked database and disk state were out of sync.
+
+---
+
+- 流程提示 modal 加入版面重置按鈕，誤拖後可以一鍵還原。
+- 新增 `/spectra-drift` 偵測 change 與當前程式碼的偏移，從時間、結構、任務、環境四個維度評分，並推薦下一步指令。
+  - 承上，apply 流程繼續任務前會自動觸發 drift 報告，避免在過期的 change 上接續工作。
+- 新增 change 在主目錄及 worktree 之間的搬移功能，可從右鍵選單建立 worktree 或搬回主目錄，搬移衝突會提示確認。
+- Metadata 資料庫統一到 git commondir，worktree 和主目錄共用同一份資料來源，避免不同 worktree 看到的 change 列表不一致。
+- `/spectra-propose` 新增 Codex 在 Plan Mode 時的結束提醒，並對 `tasks.md` 的標題與描述強制使用專案語系。
+- 修正 change 修改時間改用 artifact 檔案 mtime，剛編輯過的 change 不再因目錄 mtime 沒更新而看起來過期。
+- 修正 手動從終端機建立的 worktree 上，in-progress change 在主程式看不到的問題。
+- 修正 暫存資料庫和磁碟不一致時，磁碟上的 parked changes 會消失的問題。
+
 ## 2.2.5
 
 - Temporarily disabled window geometry persistence on Windows to avoid startup issues.
