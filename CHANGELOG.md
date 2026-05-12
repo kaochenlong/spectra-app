@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.3.1
+
+- Reworked the workflow tip so it's clearer where Spectra fits into the workflow.
+- Added rename for changes — keeps the filesystem, git branch, and database in sync.
+- Added the `cmd+o` shortcut to open a project, mirroring the "Open Project" button in the title bar.
+- Adjusted `cmd+w` to close the current tab.
+- Temporarily disabled vector search on Windows for compatibility reasons.
+
+---
+
+- 調整流程提示，更容易看出 Spectra 在工作流程的哪一段接入。
+- 新增 change 重新命名功能，會同步檔案系統、git 分支與資料庫。
+- 新增 快捷鍵 `cmd+o` 開啟專案快捷鍵，對應標題列的「開啟專案」按鈕。
+- 調整 快捷鍵 `cmd+w` 關閉分頁。
+- 考量功能相容性，Windows 版本暫時停用向量搜尋。
+
 ## 2.3.0
 
 - Workflow tip modal now has a layout reset button — one click undoes an accidental drag.
