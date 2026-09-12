@@ -20,6 +20,15 @@ export const SPXA_PACKAGE = Object.freeze(
  */
 export const SPXA_NPM_VERSION = SPXA_PACKAGE.version
 
+/**
+ * The published name of this package.
+ *
+ * Read from package.json so the packaging and smoke tools cannot drift from
+ * what npm actually publishes. Note this is not the executable name: `bin`
+ * installs the `spxa` command regardless of the package name.
+ */
+export const SPXA_PACKAGE_NAME = SPXA_PACKAGE.name
+
 /** Minimum supported Node version. */
 export const SPXA_MIN_NODE_VERSION = SPXA_PACKAGE.engines.node
 

@@ -110,7 +110,7 @@ brings npm up to the version the install is verified with.
 node scripts/publish.mjs --artifacts dist/pack --tag next
 ```
 
-Order: every platform package first, then `spxa@next`, then a registry install
+Order: every platform package first, then `@kaochenlong/spxa@next`, then a registry install
 smoke check. A version already published with identical integrity is skipped, so
 re-running the same command after a failure is safe. Conflicting content stops
 the run; nothing is overwritten and nothing is unpublished.
@@ -140,7 +140,7 @@ Published versions stay published. To roll back, move `latest` to a previously
 verified version:
 
 ```sh
-npm dist-tag add spxa@0.1.0 latest
+npm dist-tag add @kaochenlong/spxa@0.1.0 latest
 ```
 
 Then publish a fixed version as `next`, verify it, and promote it. Do not
@@ -247,7 +247,7 @@ glibc 2.31 與支援的最低 Node；`npm install -g npm@11` 把 npm 補到驗�
 node scripts/publish.mjs --artifacts dist/pack --tag next
 ```
 
-順序是：先全部平台套件，再 `spxa@next`，最後 registry 安裝 smoke。已經發布且
+順序是：先全部平台套件，再 `@kaochenlong/spxa@next`，最後 registry 安裝 smoke。已經發布且
 integrity 相同的版本會被略過，所以失敗後重跑同一條命令是安全的。內容衝突會讓它
 停下來；不覆蓋、不 unpublish。
 
@@ -273,7 +273,7 @@ git tag spxa-v0.1.0 && git push origin spxa-v0.1.0
 已發布的版本就留著。要回退的話，把 `latest` 指回先前已驗證的版本：
 
 ```sh
-npm dist-tag add spxa@0.1.0 latest
+npm dist-tag add @kaochenlong/spxa@0.1.0 latest
 ```
 
 然後把修好的版本發到 `next`、驗證、再提升。不要 unpublish，也不要用不同內容重發

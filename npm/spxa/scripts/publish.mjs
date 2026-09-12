@@ -20,11 +20,13 @@ import { createHash } from "node:crypto"
 import { existsSync, readFileSync } from "node:fs"
 import { join, resolve } from "node:path"
 
+import { SPXA_PACKAGE_NAME } from "../package-metadata.mjs"
 import { TARGETS } from "../target-registry.mjs"
 
 export const PACK_REPORT_FILENAME = "pack-report.json"
 export const PUBLISH_TAGS = Object.freeze(["next", "latest"])
-export const MAIN_PACKAGE_NAME = "spxa"
+/** The main package's published name, read from its package.json. */
+export const MAIN_PACKAGE_NAME = SPXA_PACKAGE_NAME
 
 export const HELP = `Publish the spxa npm packages in order.
 
@@ -44,7 +46,7 @@ Options:
 
 Order:
   1. every platform package, then
-  2. spxa@next, then
+  2. the main package to next, then
   3. a registry installation smoke check, then
   4. the latest dist-tag (only with --tag latest).
 

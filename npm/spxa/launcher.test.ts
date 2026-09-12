@@ -219,7 +219,7 @@ describe("spxa launcher", () => {
     })
 
     expect(stderr).toMatchInlineSnapshot(
-      `"spxa [SPXA_NATIVE_PACKAGE_MISSING]: Optional native package "@kaochenlong/spxa-darwin-arm64@1.2.3" is missing. Reinstall "spxa@1.2.3" without "--omit=optional"."`,
+      `"spxa [SPXA_NATIVE_PACKAGE_MISSING]: Optional native package "@kaochenlong/spxa-darwin-arm64@1.2.3" is missing. Reinstall "@kaochenlong/spxa@1.2.3" without "--omit=optional"."`,
     )
     expect(spawn).not.toHaveBeenCalled()
   })
@@ -235,7 +235,7 @@ describe("spxa launcher", () => {
     })
 
     expect(stderr).toMatchInlineSnapshot(
-      `"spxa [SPXA_NATIVE_EXECUTABLE_MISSING]: Executable "spxa" is missing from native package "@kaochenlong/spxa-darwin-arm64". Reinstall "spxa" without "--omit=optional"."`,
+      `"spxa [SPXA_NATIVE_EXECUTABLE_MISSING]: Executable "spxa" is missing from native package "@kaochenlong/spxa-darwin-arm64". Reinstall "@kaochenlong/spxa" without "--omit=optional"."`,
     )
     expect(resolvePackage).toHaveBeenCalledTimes(1)
     expect(spawn).toHaveBeenCalledTimes(1)
@@ -257,7 +257,7 @@ describe("spxa launcher", () => {
     })
 
     expect(stderr).toMatchInlineSnapshot(
-      `"spxa [SPXA_NATIVE_EXECUTABLE_NOT_EXECUTABLE]: Executable "spxa" from native package "@kaochenlong/spxa-darwin-arm64" is not executable (permission denied). Check its permissions or reinstall "spxa" without "--omit=optional"."`,
+      `"spxa [SPXA_NATIVE_EXECUTABLE_NOT_EXECUTABLE]: Executable "spxa" from native package "@kaochenlong/spxa-darwin-arm64" is not executable (permission denied). Check its permissions or reinstall "@kaochenlong/spxa" without "--omit=optional"."`,
     )
     expect(resolvePackage).toHaveBeenCalledTimes(1)
     expect(spawn).toHaveBeenCalledTimes(1)
@@ -274,7 +274,7 @@ describe("spxa launcher", () => {
     })
 
     expect(stderr).toMatchInlineSnapshot(
-      `"spxa [SPXA_NATIVE_SPAWN_FAILED]: Failed to start executable "spxa" from native package "@kaochenlong/spxa-darwin-arm64" (EIO: fixture I/O failure). Reinstall "spxa" without "--omit=optional" if the package is damaged."`,
+      `"spxa [SPXA_NATIVE_SPAWN_FAILED]: Failed to start executable "spxa" from native package "@kaochenlong/spxa-darwin-arm64" (EIO: fixture I/O failure). Reinstall "@kaochenlong/spxa" without "--omit=optional" if the package is damaged."`,
     )
     expect(resolvePackage).toHaveBeenCalledTimes(1)
     expect(spawn).toHaveBeenCalledTimes(1)

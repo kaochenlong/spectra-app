@@ -420,7 +420,7 @@ describe("publish ordering", () => {
       action.startsWith("publish "),
     )
     const mainIndex = publishes.findIndex((action) =>
-      action.startsWith("publish spxa@"),
+      action.startsWith(`publish ${MAIN_PACKAGE_NAME}@`),
     )
     expect(mainIndex).toBe(publishes.length - 1)
     expect(publishes).toHaveLength(TARGETS.length + 1)
@@ -473,7 +473,9 @@ describe("publish ordering", () => {
     ).toThrow(/is not queryable yet/)
 
     expect(
-      registry.actions.some((action) => action.includes("spxa@0.1.0")),
+      registry.actions.some((action) =>
+        action.includes(`${MAIN_PACKAGE_NAME}@0.1.0`),
+      ),
     ).toBe(false)
   })
 
@@ -505,7 +507,9 @@ describe("publish ordering", () => {
     ).toThrow(/is published with different content than/)
 
     expect(
-      registry.actions.some((action) => action.includes("publish spxa@")),
+      registry.actions.some((action) =>
+        action.includes(`publish ${MAIN_PACKAGE_NAME}@`),
+      ),
     ).toBe(false)
     expect(registry.promote).not.toHaveBeenCalled()
   })

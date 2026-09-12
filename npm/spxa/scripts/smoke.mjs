@@ -28,6 +28,7 @@ import { tmpdir } from "node:os"
 import { join, resolve } from "node:path"
 
 import { detectRuntime } from "../launcher.mjs"
+import { SPXA_PACKAGE_NAME } from "../package-metadata.mjs"
 import { resolveTarget } from "../target-registry.mjs"
 
 export const PACK_REPORT_FILENAME = "pack-report.json"
@@ -43,7 +44,8 @@ Modes:
   --artifacts <dir>         Install the main and host platform tarballs from a
                             pack.mjs staging directory. Works offline and does
                             not require spxa to be published.
-  --registry-install <spec> Install the given spec (for example spxa@next) from
+  --registry-install <spec> Install the given spec (for example the main package
+                            at @next) from
                             the registry into an isolated prefix.
 
 Options:
@@ -153,12 +155,12 @@ export function selectHostTarballs(artifactsDirectory, report, runtime) {
     )
   }
 
-  const main = report.packages.find((entry) => entry.name === "spxa")
+  const main = report.packages.find((entry) => entry.name === SPXA_PACKAGE_NAME)
   const native = report.packages.find(
     (entry) => entry.name === target.packageName,
   )
   if (!main) {
-    fail(`The pack report has no spxa main package.`)
+    fail(`The pack report has no ${SPXA_PACKAGE_NAME} main package.`)
   }
   if (!native) {
     fail(
@@ -303,7 +305,7 @@ export function checkSelfUpdateLeavesTheBinary(invoke, executablePath, label) {
   if (result.status !== 1) {
     fail(`${label}: self-update exited ${result.status}, expected 1`)
   }
-  if (!result.stderr.includes("npm install -g spxa@latest")) {
+  if (!result.stderr.includes(`npm install -g ${SPXA_PACKAGE_NAME}@latest`)) {
     fail(`${label}: self-update did not point at npm: ${result.stderr}`)
   }
   const after = sha256File(executablePath)

@@ -322,7 +322,7 @@ describe("pack produces inspected tarballs", () => {
     expect(existsSync(join(output, PACK_REPORT_FILENAME))).toBe(true)
 
     const main = report.packages[0]
-    expect(main.name).toBe("spxa")
+    expect(main.name).toBe("@kaochenlong/spxa")
     expect(main.version).toBe("0.1.0")
     expect(
       inspectTarball(
@@ -408,7 +408,7 @@ describe("pack produces inspected tarballs", () => {
     expect(report.complete).toBe(false)
     expect(report.dirty).toBe(true)
     expect(report.packages.map((entry) => entry.name)).toEqual([
-      "spxa",
+      "@kaochenlong/spxa",
       "@kaochenlong/spxa-darwin-arm64",
     ])
   }, 120_000)

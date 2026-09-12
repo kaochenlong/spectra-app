@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs"
 import { createRequire } from "node:module"
 import { dirname, join } from "node:path"
 
+import { SPXA_PACKAGE_NAME } from "./package-metadata.mjs"
 import { TARGETS, resolveTarget, runtimeTuple } from "./target-registry.mjs"
 
 const require = createRequire(import.meta.url)
@@ -513,7 +514,9 @@ function reinstallHint(version) {
 
 /** @param {string} [version] */
 function reinstallAction(version) {
-  const packageSpec = version ? `spxa@${version}` : "spxa"
+  const packageSpec = version
+    ? `${SPXA_PACKAGE_NAME}@${version}`
+    : SPXA_PACKAGE_NAME
   return `reinstall "${packageSpec}" without "--omit=optional"`
 }
 

@@ -10,6 +10,7 @@ import { spawnSync } from "node:child_process"
 import { join } from "node:path"
 import { describe, expect, it } from "vitest"
 
+import { SPXA_PACKAGE_NAME } from "../package-metadata.mjs"
 import {
   PACK_REPORT_FILENAME,
   SENTINEL_NAME,
@@ -31,7 +32,11 @@ function report(overrides: Record<string, unknown> = {}) {
     coreVersion: "3.0.0",
     dirty: false,
     packages: [
-      { name: "spxa", version: "0.1.0", tarball: "tarballs/spxa.tgz" },
+      {
+        name: SPXA_PACKAGE_NAME,
+        version: "0.1.0",
+        tarball: "tarballs/spxa.tgz",
+      },
       {
         name: "@kaochenlong/spxa-darwin-arm64",
         version: "0.1.0",
@@ -71,12 +76,18 @@ describe("smoke arguments", () => {
       /Pass --artifacts <dir> or --registry-install <spec>/,
     )
     expect(() =>
-      parseArguments(["--artifacts", "/in", "--registry-install", "spxa@next"]),
+      parseArguments([
+        "--artifacts",
+        "/in",
+        "--registry-install",
+        `${SPXA_PACKAGE_NAME}@next`,
+      ]),
     ).toThrow(/separate modes/)
     expect(parseArguments(["--artifacts", "/in"]).artifacts).toBe("/in")
     expect(
-      parseArguments(["--registry-install", "spxa@next"]).registryInstall,
-    ).toBe("spxa@next")
+      parseArguments(["--registry-install", `${SPXA_PACKAGE_NAME}@next`])
+        .registryInstall,
+    ).toBe(`${SPXA_PACKAGE_NAME}@next`)
     expect(() => parseArguments(["--artifacts"])).toThrow(/needs a value/)
     expect(() => parseArguments(["--nope"])).toThrow(/Unknown argument/)
   })
@@ -139,7 +150,11 @@ describe("smoke delivery selection", () => {
     const { sandbox, directory } = artifacts(
       report({
         packages: [
-          { name: "spxa", version: "0.1.0", tarball: "tarballs/spxa.tgz" },
+          {
+            name: SPXA_PACKAGE_NAME,
+            version: "0.1.0",
+            tarball: "tarballs/spxa.tgz",
+          },
         ],
       }),
       ["spxa.tgz"],
@@ -200,7 +215,7 @@ describe("smoke self-update check", () => {
     const sandbox = createSandbox()
     try {
       const executable = standIn(join(sandbox.root, "native"), [
-        "process.stderr.write('Error: spxa is installed by npm and cannot replace its own executable. Update a global install with `npm install -g spxa@latest`.\\n')",
+        `process.stderr.write('Error: spxa is installed by npm and cannot replace its own executable. Update a global install with \`npm install -g ${SPXA_PACKAGE_NAME}@latest\`.\\n')`,
         "process.exit(1)",
       ])
 
@@ -236,7 +251,7 @@ describe("smoke self-update check", () => {
 
       const rewrites = standIn(join(sandbox.root, "rewrites"), [
         "const { writeFileSync } = require('node:fs')",
-        "process.stderr.write('npm install -g spxa@latest\\n')",
+        `process.stderr.write('npm install -g ${SPXA_PACKAGE_NAME}@latest\\n')`,
         "writeFileSync(process.argv[1], '#!/usr/bin/env node\\nprocess.exit(1)\\n')",
         "process.exit(1)",
       ])

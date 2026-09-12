@@ -1,5 +1,5 @@
 {
-  "name": "spxa",
+  "name": "@kaochenlong/spxa",
   "version": "0.0.0-dev",
   "description": "Spectra spec management CLI \u2014 spec-driven development from the terminal",
   "keywords": [

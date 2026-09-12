@@ -477,7 +477,11 @@ export function pack(options, dependencies = {}) {
 
   const mainDirectory = stageMainPackage(launcherRoot, stagingRoot, npmVersion)
   const mainTarball = packDirectory(mainDirectory, tarballDirectory, runNpmPack)
-  inspectTarball(mainTarball, MAIN_PACKAGE_ALLOWLIST, `spxa@${npmVersion}`)
+  inspectTarball(
+    mainTarball,
+    MAIN_PACKAGE_ALLOWLIST,
+    `${SPXA_PACKAGE.name}@${npmVersion}`,
+  )
   packages.push({
     name: SPXA_PACKAGE.name,
     version: npmVersion,

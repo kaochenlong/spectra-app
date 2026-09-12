@@ -1,6 +1,6 @@
 # spxa
 
-`spxa` is the npm distribution of the Spectra command-line interface.
+`@kaochenlong/spxa` is the npm distribution of the Spectra command-line interface.
 
 The package contains a small MIT-licensed Node.js launcher. It installs one
 matching native Rust executable as an exact-version optional dependency, and
@@ -12,21 +12,21 @@ is downloaded during installation or at run time.
 Global installation:
 
 ```sh
-npm install -g spxa
+npm install -g @kaochenlong/spxa
 spxa init
 ```
 
 Project dependency:
 
 ```sh
-npm install --save-dev spxa
+npm install --save-dev @kaochenlong/spxa
 npm exec spxa -- init
 ```
 
 One-time run:
 
 ```sh
-npx spxa init
+npx @kaochenlong/spxa init
 ```
 
 Node.js 22.14 or newer is required. Installation is verified with npm 11.
@@ -37,7 +37,7 @@ The Spectra skills that `spxa init` generates call `spxa` directly. `npx` runs
 the CLI once and leaves no permanent command behind, so for an agent to run
 those skills one of the following has to be true:
 
-- `spxa` is installed globally (`npm install -g spxa`), or
+- `spxa` is installed globally (`npm install -g @kaochenlong/spxa`), or
 - the project's `node_modules/.bin` is on the PATH of the environment the agent
   runs commands in.
 
@@ -97,8 +97,8 @@ version.
 npm owns every file it installed, so `spxa` does not replace itself.
 
 ```sh
-npm install -g spxa@latest              # update a global installation
-npm install --save-dev spxa@latest      # update a project dependency
+npm install -g @kaochenlong/spxa@latest              # update a global installation
+npm install --save-dev @kaochenlong/spxa@latest      # update a project dependency
 ```
 
 `spxa self-update` exits 1 and points at the commands above. It leaves the
@@ -109,7 +109,7 @@ inside your project. It has nothing to do with updating `spxa` itself.
 
 ## Licensing
 
-- The JavaScript launcher in the `spxa` package is MIT licensed.
+- The JavaScript launcher in the `@kaochenlong/spxa` package is MIT licensed.
 - The `@kaochenlong/spxa-*` packages contain publicly downloadable proprietary
   binaries, governed by the `LICENSE` file included in each package.
 - Third-party components inside each native binary remain under the licences
@@ -132,7 +132,7 @@ and request features at
 
 # spxa（繁體中文）
 
-`spxa` 是 Spectra 命令列工具的 npm 發佈版本。
+`@kaochenlong/spxa` 是 Spectra 命令列工具的 npm 發佈版本。
 
 套件本身是一個以 MIT 授權的小型 Node.js launcher，並以「精確版本的
 optionalDependency」安裝對應平台的原生 Rust 執行檔；每個平台套件的 tarball 直接
@@ -143,21 +143,21 @@ optionalDependency」安裝對應平台的原生 Rust 執行檔；每個平台�
 全域安裝：
 
 ```sh
-npm install -g spxa
+npm install -g @kaochenlong/spxa
 spxa init
 ```
 
 專案安裝：
 
 ```sh
-npm install --save-dev spxa
+npm install --save-dev @kaochenlong/spxa
 npm exec spxa -- init
 ```
 
 單次執行：
 
 ```sh
-npx spxa init
+npx @kaochenlong/spxa init
 ```
 
 需要 Node.js 22.14 或更新版本，安裝驗收使用 npm 11。
@@ -217,8 +217,8 @@ spxa --version      # spxa <npmVersion> (core <coreVersion>)
 npm 擁有它安裝的每個檔案，所以 `spxa` 不會替換自己。
 
 ```sh
-npm install -g spxa@latest              # 更新全域安裝
-npm install --save-dev spxa@latest      # 更新專案依賴
+npm install -g @kaochenlong/spxa@latest              # 更新全域安裝
+npm install --save-dev @kaochenlong/spxa@latest      # 更新專案依賴
 ```
 
 `spxa self-update` 會退出 1 並指向上面的指令，不會動到原生執行檔，也不會連任何
@@ -229,7 +229,7 @@ npm install --save-dev spxa@latest      # 更新專案依賴
 
 ## 授權
 
-- `spxa` 套件裡的 JavaScript launcher 採 MIT 授權。
+- `@kaochenlong/spxa` 套件裡的 JavaScript launcher 採 MIT 授權。
 - `@kaochenlong/spxa-*` 套件內含可公開下載的專有二進位檔，適用各套件內附的
   `LICENSE`。
 - 每個原生執行檔中的第三方元件，仍適用該套件 `THIRD_PARTY_NOTICES` 所列的授權。
