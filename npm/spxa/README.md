@@ -117,9 +117,8 @@ inside your project. It has nothing to do with updating `spxa` itself.
 - Installing a public binary grants no access to, or rights in, Spectra's
   proprietary Rust source code.
 
-The desktop Spectra application and the direct `specx` distribution are
-separate channels with their own installation and update behaviour. Neither is
-affected by an npm release.
+The desktop Spectra application is a separate channel with its own
+installation and update behaviour. It is not affected by an npm release.
 
 ## Source and issues
 
@@ -235,8 +234,7 @@ npm install --save-dev @kaochenlong/spxa@latest      # 更新專案依賴
 - 每個原生執行檔中的第三方元件，仍適用該套件 `THIRD_PARTY_NOTICES` 所列的授權。
 - 安裝公開的二進位檔，不代表取得 Spectra 專有 Rust 原始碼的存取權或任何權利。
 
-桌面版 Spectra 與既有的 `specx` 直接安裝通路是各自獨立的通道，有自己的安裝與更新
-行為；npm 的發佈不會影響它們。
+桌面版 Spectra 是各自獨立的通道，有自己的安裝與更新行為；npm 的發佈不會影響它。
 
 ## 原始碼與問題回報
 

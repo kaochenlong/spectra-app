@@ -4,9 +4,8 @@
  * smoke check passes is the main package promoted to `latest`.
  *
  * This tool touches the npm registry and nothing else. It never creates a
- * GitHub Release, never modifies the desktop R2 manifest, and never changes the
- * legacy specx download channel — those channels are independent and this
- * script has no entry point into them.
+ * GitHub Release and never modifies the desktop R2 manifest — that channel is
+ * independent and this script has no entry point into it.
  *
  * A failure leaves a retryable plan behind: versions already published with
  * identical integrity are skipped, conflicting content stops the run. Nothing
@@ -50,8 +49,8 @@ Order:
   3. a registry installation smoke check, then
   4. the latest dist-tag (only with --tag latest).
 
-This tool never creates a GitHub Release, never touches the desktop R2 manifest
-and never changes the legacy specx channel. Tag the release yourself as
+This tool never creates a GitHub Release and never touches the desktop R2
+manifest. Tag the release yourself as
 spxa-v<version> if you want the traceability.
 `
 

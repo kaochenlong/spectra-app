@@ -30,7 +30,7 @@ export const TARGETS = Object.freeze(
       cpu: "arm64",
       libc: null,
       archiveExtension: "tar.gz",
-      rawExecutableName: "specx",
+      rawExecutableName: "spxa",
       npmExecutableName: "spxa",
     },
     {
@@ -41,7 +41,7 @@ export const TARGETS = Object.freeze(
       cpu: "x64",
       libc: null,
       archiveExtension: "tar.gz",
-      rawExecutableName: "specx",
+      rawExecutableName: "spxa",
       npmExecutableName: "spxa",
     },
     {
@@ -52,7 +52,7 @@ export const TARGETS = Object.freeze(
       cpu: "arm64",
       libc: "glibc",
       archiveExtension: "tar.gz",
-      rawExecutableName: "specx",
+      rawExecutableName: "spxa",
       npmExecutableName: "spxa",
     },
     {
@@ -63,7 +63,7 @@ export const TARGETS = Object.freeze(
       cpu: "x64",
       libc: "glibc",
       archiveExtension: "tar.gz",
-      rawExecutableName: "specx",
+      rawExecutableName: "spxa",
       npmExecutableName: "spxa",
     },
     {
@@ -74,7 +74,7 @@ export const TARGETS = Object.freeze(
       cpu: "x64",
       libc: null,
       archiveExtension: "zip",
-      rawExecutableName: "specx.exe",
+      rawExecutableName: "spxa.exe",
       npmExecutableName: "spxa.exe",
     },
   ].map((target) => Object.freeze(target)),

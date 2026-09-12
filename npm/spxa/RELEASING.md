@@ -24,8 +24,9 @@ directory:
 pnpm tsx scripts/build-spxa.ts \
   --launcher-root ../spectra-app/npm/spxa \
   --output dist/spxa \
-  --version 0.1.0 \
-  --linux-builder rust:1.92-bullseye@sha256:c6d501c039204c21e9fa374f234bd41bdc8b36cfd455a407ef145d9bef19f2b7
+  --version 0.1.1 \
+  --linux-builder aarch64-unknown-linux-gnu=rust:1.92-bullseye@sha256:da16965797a8261d77679fdc55d52f7325778206fe55ccdb07f524506fa5a81c \
+  --linux-builder x86_64-unknown-linux-gnu=rust:1.92-bullseye@sha256:1457d2d4c17744866d70ed32edf4165808ab3d712db473d682ecd715faa3ffe4
 ```
 
 - `--version` is the npmVersion for this release. It is an explicit input; it is
@@ -42,8 +43,8 @@ rebuilding:
 ```sh
 pnpm tsx scripts/build-spxa.ts \
   --launcher-root ../spectra-app/npm/spxa \
-  --output dist/spxa-0.1.1 \
-  --version 0.1.1 \
+  --output dist/spxa-0.1.2 \
+  --version 0.1.2 \
   --reuse-artifacts dist/spxa
 ```
 
@@ -54,7 +55,7 @@ verified before anything is reused. `--reuse-artifacts` cannot be combined with
 ## 2. Pack the tarballs
 
 ```sh
-node scripts/pack.mjs --artifacts ../../spectra/dist/spxa --output dist/pack --version 0.1.0
+node scripts/pack.mjs --artifacts ../../spectra/dist/spxa --output dist/pack --version 0.1.1
 ```
 
 This verifies the matrix, the version, every checksum, the compatibility data
@@ -128,11 +129,11 @@ Tag the release for traceability if you want it — the tool prints the suggeste
 name and never creates it:
 
 ```sh
-git tag spxa-v0.1.0 && git push origin spxa-v0.1.0
+git tag spxa-v0.1.1 && git push origin spxa-v0.1.1
 ```
 
-This tool never creates a GitHub Release, never touches the desktop R2
-manifest, and never changes the legacy `specx` channel.
+This tool never creates a GitHub Release and never touches the desktop R2
+manifest.
 
 ## Rolling back
 
@@ -140,7 +141,7 @@ Published versions stay published. To roll back, move `latest` to a previously
 verified version:
 
 ```sh
-npm dist-tag add @kaochenlong/spxa@0.1.0 latest
+npm dist-tag add @kaochenlong/spxa@0.1.1 latest
 ```
 
 Then publish a fixed version as `next`, verify it, and promote it. Do not
@@ -172,8 +173,9 @@ unpublish and do not republish a version with different content.
 pnpm tsx scripts/build-spxa.ts \
   --launcher-root ../spectra-app/npm/spxa \
   --output dist/spxa \
-  --version 0.1.0 \
-  --linux-builder rust:1.92-bullseye@sha256:c6d501c039204c21e9fa374f234bd41bdc8b36cfd455a407ef145d9bef19f2b7
+  --version 0.1.1 \
+  --linux-builder aarch64-unknown-linux-gnu=rust:1.92-bullseye@sha256:da16965797a8261d77679fdc55d52f7325778206fe55ccdb07f524506fa5a81c \
+  --linux-builder x86_64-unknown-linux-gnu=rust:1.92-bullseye@sha256:1457d2d4c17744866d70ed32edf4165808ab3d712db473d682ecd715faa3ffe4
 ```
 
 - `--version` 就是這次的 npmVersion，是明確的輸入，不從任何 Rust 檔案推導。
@@ -186,8 +188,8 @@ pnpm tsx scripts/build-spxa.ts \
 ```sh
 pnpm tsx scripts/build-spxa.ts \
   --launcher-root ../spectra-app/npm/spxa \
-  --output dist/spxa-0.1.1 \
-  --version 0.1.1 \
+  --output dist/spxa-0.1.2 \
+  --version 0.1.2 \
   --reuse-artifacts dist/spxa
 ```
 
@@ -197,7 +199,7 @@ pnpm tsx scripts/build-spxa.ts \
 ## 2. 打包 tarball
 
 ```sh
-node scripts/pack.mjs --artifacts ../../spectra/dist/spxa --output dist/pack --version 0.1.0
+node scripts/pack.mjs --artifacts ../../spectra/dist/spxa --output dist/pack --version 0.1.1
 ```
 
 打包之前會先驗證矩陣、版本、每個 checksum、相容性資料與 source identity。每個
@@ -262,18 +264,17 @@ node scripts/publish.mjs --artifacts dist/pack --tag latest
 要做追溯就自己打 tag —— 工具只印出建議名稱，不會替你建立：
 
 ```sh
-git tag spxa-v0.1.0 && git push origin spxa-v0.1.0
+git tag spxa-v0.1.1 && git push origin spxa-v0.1.1
 ```
 
-這個工具不會建立 GitHub Release、不會動桌面版的 R2 manifest，也不會改 legacy
-`specx` 通路。
+這個工具不會建立 GitHub Release，也不會動桌面版的 R2 manifest。
 
 ## 回退
 
 已發布的版本就留著。要回退的話，把 `latest` 指回先前已驗證的版本：
 
 ```sh
-npm dist-tag add @kaochenlong/spxa@0.1.0 latest
+npm dist-tag add @kaochenlong/spxa@0.1.1 latest
 ```
 
 然後把修好的版本發到 `next`、驗證、再提升。不要 unpublish，也不要用不同內容重發

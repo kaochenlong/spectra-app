@@ -4,7 +4,7 @@ This file records third-party software included in the proprietary spxa native e
 The listed components remain subject to their respective licenses; those licenses apply only
 to the corresponding third-party components and do not license the proprietary spxa code.
 
-Dependency scope: union of normal and build dependencies reachable from the specx Cargo package
+Dependency scope: union of normal and build dependencies reachable from the spxa Cargo package
 for the supported macOS, Linux GNU, and Windows targets; dev-only dependencies are excluded.
 Cargo.lock SHA-256: d76a6b0087c5ea5cf7e9df792967c1d0e3548a9c8a68327f79620a800327412c
 

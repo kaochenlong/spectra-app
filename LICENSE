@@ -1,0 +1,57 @@
+Spectra — Licensing
+Copyright (c) 2026 5xCampus. All rights reserved.
+
+This repository contains parts under different licenses. Read this file before
+copying anything out of it.
+
+
+1. MIT-licensed: the npm launcher (npm/spxa)
+
+Everything under npm/spxa, excluding npm/spxa/native, is the open-source
+JavaScript launcher published to npm as @kaochenlong/spxa. It is licensed under
+the MIT License reproduced in section 3 below, and also distributed inside the
+npm package as npm/spxa/LICENSE.
+
+
+2. Not MIT-licensed: everything else in this repository
+
+All other content — including README.md, CHANGELOG.md, the files under assets
+and releases, and the Spectra name and logo — is proprietary and is not
+licensed under the MIT License. No license to it is granted by implication,
+estoppel, or the public availability of this repository.
+
+The Spectra desktop application and the Spectra command-line native
+executables are distributed as compiled binaries only. Their source code is
+not published here or anywhere else, and no license or other right to that
+source code is granted. Use of the native executables distributed in
+@kaochenlong/spxa-* npm packages is governed by npm/spxa/native/LICENSE.
+Third-party components inside those executables remain under the licenses
+listed in the THIRD_PARTY_NOTICES file distributed alongside them.
+
+Binaries being freely downloadable is a distribution decision, not a license
+to the source.
+
+
+3. The MIT License, applying only as stated in section 1
+
+MIT License
+
+Copyright (c) 2026 5xCampus
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
