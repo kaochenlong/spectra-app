@@ -46,13 +46,24 @@ command into an `npx` call.
 
 ## Supported platforms
 
-| Runtime tuple       | Native package                   | Minimum environment |
-| ------------------- | -------------------------------- | ------------------- |
-| `darwin-arm64`      | `@5xcampus/spxa-darwin-arm64`    | macOS 13            |
-| `darwin-x64`        | `@5xcampus/spxa-darwin-x64`      | macOS 13            |
-| `linux-arm64-glibc` | `@5xcampus/spxa-linux-arm64-gnu` | glibc 2.31          |
-| `linux-x64-glibc`   | `@5xcampus/spxa-linux-x64-gnu`   | glibc 2.31          |
-| `win32-x64`         | `@5xcampus/spxa-win32-x64`       | Windows 10 x64      |
+| Runtime tuple       | Native package                   | Minimum environment | Verification                       |
+| ------------------- | -------------------------------- | ------------------- | ---------------------------------- |
+| `darwin-arm64`      | `@5xcampus/spxa-darwin-arm64`    | macOS 13            | Installed and run on a newer macOS |
+| `darwin-x64`        | `@5xcampus/spxa-darwin-x64`      | macOS 13            | Built only                         |
+| `linux-arm64-glibc` | `@5xcampus/spxa-linux-arm64-gnu` | glibc 2.31          | Installed and run on glibc 2.31    |
+| `linux-x64-glibc`   | `@5xcampus/spxa-linux-x64-gnu`   | glibc 2.31          | Installed and run on glibc 2.31    |
+| `win32-x64`         | `@5xcampus/spxa-win32-x64`       | Windows 10 x64      | Built only                         |
+
+"Installed and run" means the published tarballs were installed into an isolated
+prefix on that runtime and the CLI was exercised there: `--help`, `--version`,
+`init`, `update`, the `--json` handlers, and `self-update`. Both Linux rows were
+verified on glibc 2.31 itself, the stated minimum.
+
+"Built only" means the executable compiles and packages correctly but has not
+been run on that runtime yet. The macOS minimum of 13 has not been exercised on
+either macOS row either — the Apple Silicon run was on a newer macOS. If a
+platform misbehaves, please open an issue; the support claim above is what has
+been tested, not a guess.
 
 Linux musl, Windows arm64, and every other tuple are unsupported in this
 release. On an unsupported runtime the launcher exits 1 with
@@ -163,13 +174,22 @@ npx spxa init
 
 ## 支援平台
 
-| Runtime tuple       | 平台套件                         | 最低環境       |
-| ------------------- | -------------------------------- | -------------- |
-| `darwin-arm64`      | `@5xcampus/spxa-darwin-arm64`    | macOS 13       |
-| `darwin-x64`        | `@5xcampus/spxa-darwin-x64`      | macOS 13       |
-| `linux-arm64-glibc` | `@5xcampus/spxa-linux-arm64-gnu` | glibc 2.31     |
-| `linux-x64-glibc`   | `@5xcampus/spxa-linux-x64-gnu`   | glibc 2.31     |
-| `win32-x64`         | `@5xcampus/spxa-win32-x64`       | Windows 10 x64 |
+| Runtime tuple       | 平台套件                         | 最低環境       | 驗收狀態                     |
+| ------------------- | -------------------------------- | -------------- | ---------------------------- |
+| `darwin-arm64`      | `@5xcampus/spxa-darwin-arm64`    | macOS 13       | 已安裝並執行（較新的 macOS） |
+| `darwin-x64`        | `@5xcampus/spxa-darwin-x64`      | macOS 13       | 僅建置                       |
+| `linux-arm64-glibc` | `@5xcampus/spxa-linux-arm64-gnu` | glibc 2.31     | 已在 glibc 2.31 安裝並執行   |
+| `linux-x64-glibc`   | `@5xcampus/spxa-linux-x64-gnu`   | glibc 2.31     | 已在 glibc 2.31 安裝並執行   |
+| `win32-x64`         | `@5xcampus/spxa-win32-x64`       | Windows 10 x64 | 僅建置                       |
+
+「已安裝並執行」是指：把發布的 tarball 安裝到那個 runtime 上的隔離 prefix，並在
+那裡實際執行 `--help`、`--version`、`init`、`update`、各個 `--json` handler 與
+`self-update`。兩個 Linux 是在 glibc 2.31 本身（也就是宣稱的最低環境）上驗的。
+
+「僅建置」是指執行檔編得出來、打包正確，但還沒有在那個 runtime 上被執行過。
+**macOS 13 這個最低版本，兩個 macOS 平台都還沒實際驗過** —— Apple Silicon 那次
+是在較新的 macOS 上跑的。哪個平台出問題請開 issue；上面的支援清單寫的是實際測
+過什麼，不是推測。
 
 這一版不支援 Linux musl、Windows arm64 與其他 tuple。在不支援的環境上，launcher
 會以 `SPXA_UNSUPPORTED_RUNTIME` 退出 1，並列出偵測到的 tuple 與支援清單。偵測不出
