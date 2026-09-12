@@ -16,8 +16,10 @@ import {
   HELP,
   MAIN_PACKAGE_NAME,
   PACK_REPORT_FILENAME,
+  canPublishPackage,
   createPlan,
   formatPlan,
+  parseAccountPermissions,
   parseArguments,
   publish,
 } from "./publish.mjs"
@@ -132,6 +134,77 @@ describe("publish --help and arguments", () => {
   })
 })
 
+describe("publish permission checks", () => {
+  it("reads the permission this account holds for each package", () => {
+    const permissions = parseAccountPermissions(
+      JSON.stringify({
+        "@kaochenlong/spxa-darwin-arm64": "read-write",
+        "someone-elses-package": "read-only",
+      }),
+    )
+
+    expect(permissions).toEqual({
+      "@kaochenlong/spxa-darwin-arm64": "read-write",
+      "someone-elses-package": "read-only",
+    })
+  })
+
+  // `npm access get status` and `npm access list packages` return the same
+  // shape with different meanings: the first is a package's visibility, the
+  // second is the permission this account holds. Reading a visibility as a
+  // permission silently denies every publish, so it has to fail loudly.
+  it("refuses a package visibility map instead of silently denying everything", () => {
+    for (const visibility of ["private", "public"]) {
+      expect(() =>
+        parseAccountPermissions(JSON.stringify({ spxa: visibility })),
+      ).toThrow(/visibility.*not a permission|not a permission.*visibility/i)
+    }
+    expect(() => parseAccountPermissions("not json at all")).toThrow()
+  })
+
+  it("refuses a permission value it does not recognise", () => {
+    for (const unexpected of ["write-only", "owner", "", "true"]) {
+      expect(
+        () => parseAccountPermissions(JSON.stringify({ spxa: unexpected })),
+        unexpected,
+      ).toThrow(/unrecognised permission/)
+    }
+    expect(() => parseAccountPermissions(JSON.stringify(["spxa"]))).toThrow(
+      /package-to-permission object/,
+    )
+  })
+
+  it("allows a package this account holds read-write on", () => {
+    expect(
+      canPublishPackage("spxa", {
+        permissions: { spxa: "read-write" },
+        published: true,
+      }),
+    ).toBe(true)
+    expect(
+      canPublishPackage("spxa", {
+        permissions: { spxa: "read-only" },
+        published: true,
+      }),
+    ).toBe(false)
+  })
+
+  // A first publish is the normal case for this release: the name is listed
+  // nowhere because nobody has published it. The registry is the authority at
+  // publish time, so an unpublished name must not be pre-denied.
+  it("allows an unpublished name and refuses someone else's package", () => {
+    expect(
+      canPublishPackage("@kaochenlong/spxa-win32-x64", {
+        permissions: {},
+        published: false,
+      }),
+    ).toBe(true)
+    expect(
+      canPublishPackage("express", { permissions: {}, published: true }),
+    ).toBe(false)
+  })
+})
+
 describe("publish plan", () => {
   it("orders platform packages before the main package, smoke and latest", () => {
     const plan = createPlan(staging(), "latest")
@@ -158,11 +231,12 @@ describe("publish plan", () => {
     const missing = staging()
     patchReport(missing, (report) => {
       report.packages = report.packages.filter(
-        (entry: { name: string }) => entry.name !== "@5xcampus/spxa-win32-x64",
+        (entry: { name: string }) =>
+          entry.name !== "@kaochenlong/spxa-win32-x64",
       )
     })
     expect(() => createPlan(missing, "next")).toThrow(
-      /missing @5xcampus\/spxa-win32-x64/,
+      /missing @kaochenlong\/spxa-win32-x64/,
     )
 
     const mixed = staging()
@@ -335,7 +409,7 @@ describe("publish ordering", () => {
   it("refuses to publish when the account cannot publish every package", () => {
     const registry = fakeRegistry()
     registry.canPublish = vi.fn(
-      (name: string) => name !== "@5xcampus/spxa-linux-x64-gnu",
+      (name: string) => name !== "@kaochenlong/spxa-linux-x64-gnu",
     ) as never
 
     expect(() =>
@@ -343,7 +417,7 @@ describe("publish ordering", () => {
         { artifacts: staging(), tag: "next" },
         { registry: registry as never, smoke: vi.fn(), write: () => {} },
       ),
-    ).toThrow(/cannot publish @5xcampus\/spxa-linux-x64-gnu/)
+    ).toThrow(/cannot publish @kaochenlong\/spxa-linux-x64-gnu/)
     expect(registry.publish).not.toHaveBeenCalled()
   })
 
@@ -415,7 +489,10 @@ describe("publish retry", () => {
   it("stops on conflicting content and never overwrites or unpublishes", () => {
     const directory = staging()
     const published = new Map<string, string>([
-      ["@5xcampus/spxa-darwin-arm64@0.1.0", sha256("someone else's bytes\n")],
+      [
+        "@kaochenlong/spxa-darwin-arm64@0.1.0",
+        sha256("someone else's bytes\n"),
+      ],
     ])
     const registry = fakeRegistry(published)
 
@@ -428,7 +505,7 @@ describe("publish retry", () => {
 
     expect(registry.publish).not.toHaveBeenCalled()
     expect(registry.promote).not.toHaveBeenCalled()
-    expect(published.get("@5xcampus/spxa-darwin-arm64@0.1.0")).toBe(
+    expect(published.get("@kaochenlong/spxa-darwin-arm64@0.1.0")).toBe(
       sha256("someone else's bytes\n"),
     )
   })

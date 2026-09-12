@@ -194,18 +194,98 @@ export function formatPlan(plan) {
   return `${lines.join("\n")}\n`
 }
 
+/** The permission a publish requires. */
+const PUBLISH_PERMISSION = "read-write"
+
+/** Every permission `npm access list packages` can report. */
+const ACCOUNT_PERMISSIONS = new Set([PUBLISH_PERMISSION, "read-only"])
+
+/**
+ * Parse `npm access list packages --json` into package name → permission.
+ *
+ * `npm access get status` returns the same shape with different meaning — a
+ * package's visibility (`private` / `public`) rather than the permission this
+ * account holds. Reading one as the other denies every publish without saying
+ * why, so a visibility map is rejected here instead of quietly returning no
+ * permissions.
+ *
+ * @param {string | Record<string, string>} raw
+ * @returns {Record<string, string>}
+ */
+export function parseAccountPermissions(raw) {
+  const parsed = typeof raw === "string" ? JSON.parse(raw) : raw
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+    fail(
+      `Expected a package-to-permission object from npm, got ${JSON.stringify(parsed)}.`,
+    )
+  }
+
+  for (const [name, permission] of Object.entries(parsed)) {
+    if (ACCOUNT_PERMISSIONS.has(permission)) {
+      continue
+    }
+    if (permission === "private" || permission === "public") {
+      fail(
+        `"${name}" is reported as "${permission}", which is a package visibility, not a permission. Read the account's permissions with \`npm access list packages\`, not \`npm access get status\`.`,
+      )
+    }
+    fail(
+      `"${name}" has an unrecognised permission "${permission}". Expected one of: ${[...ACCOUNT_PERMISSIONS].join(", ")}.`,
+    )
+  }
+
+  return parsed
+}
+
+/**
+ * Whether this account can publish that package name.
+ *
+ * A name the account holds needs `read-write`. A name that nobody has
+ * published yet is publishable — the registry decides at publish time, and a
+ * first release would otherwise be denied before it started. A name that
+ * already exists and is not in the account's list belongs to someone else.
+ *
+ * @param {string} packageName
+ * @param {{ permissions: Record<string, string>, published: boolean }} account
+ * @returns {boolean}
+ */
+export function canPublishPackage(packageName, { permissions, published }) {
+  const held = permissions[packageName]
+  if (held !== undefined) {
+    return held === PUBLISH_PERMISSION
+  }
+  return !published
+}
+
 /** The adapter that actually talks to the npm registry. */
 export const npmRegistry = {
   whoami() {
     return execFileSync("npm", ["whoami"], { encoding: "utf8" }).trim()
   },
-  canPublish(packageName) {
-    const permission = execFileSync(
-      "npm",
-      ["access", "get", "status", packageName],
-      { encoding: "utf8" },
+  /** Cached for the run: the account's permissions do not change mid-release. */
+  accountPermissions() {
+    this._permissions ??= parseAccountPermissions(
+      execFileSync("npm", ["access", "list", "packages", "--json"], {
+        encoding: "utf8",
+      }),
     )
-    return permission.includes("read-write")
+    return this._permissions
+  },
+  isPublished(packageName) {
+    try {
+      execFileSync("npm", ["view", packageName, "name"], {
+        stdio: ["ignore", "ignore", "ignore"],
+      })
+      return true
+    } catch {
+      return false
+    }
+  },
+  canPublish(packageName) {
+    return canPublishPackage(packageName, {
+      permissions: this.accountPermissions(),
+      published: this.isPublished(packageName),
+    })
   },
   view(packageName, version) {
     try {
