@@ -63,6 +63,53 @@ function sha256File(path) {
   return createHash("sha256").update(readFileSync(path)).digest("hex")
 }
 
+/**
+ * Whether a local tarball is the bytes the registry holds under that version.
+ *
+ * npm reports `dist.integrity` as Subresource Integrity: an algorithm name and
+ * a base64 digest, normally `sha512-...`. A hex sha256 of the same file never
+ * equals that string, so comparing the two reads as a content conflict on every
+ * retry — which is how "published versions with identical integrity are
+ * skipped" stopped working. The algorithm comes from what the registry
+ * reported, and the local digest is computed to match it.
+ *
+ * @param {string} tarballPath
+ * @param {string} publishedIntegrity
+ * @returns {boolean}
+ */
+export function matchesPublishedIntegrity(tarballPath, publishedIntegrity) {
+  if (
+    typeof publishedIntegrity !== "string" ||
+    !publishedIntegrity.includes("-")
+  ) {
+    fail(
+      `The registry reported an integrity this tool cannot read: ${JSON.stringify(publishedIntegrity)}. Expected Subresource Integrity such as "sha512-<base64>".`,
+    )
+  }
+
+  // A package can carry several digests separated by whitespace; any one of
+  // them matching means the bytes are the same.
+  return publishedIntegrity
+    .trim()
+    .split(/\s+/)
+    .some((entry) => {
+      const separator = entry.indexOf("-")
+      const algorithm = entry.slice(0, separator)
+      const digest = entry.slice(separator + 1)
+      let local
+      try {
+        local = createHash(algorithm)
+          .update(readFileSync(tarballPath))
+          .digest("base64")
+      } catch {
+        // An algorithm this runtime cannot compute is not a match; another
+        // entry in the list may still be comparable.
+        return false
+      }
+      return local === digest
+    })
+}
+
 export function readPackReport(artifactsDirectory) {
   const reportPath = join(artifactsDirectory, PACK_REPORT_FILENAME)
   if (!existsSync(reportPath)) {
@@ -129,9 +176,9 @@ export function createPlan(artifactsDirectory, tag) {
       fail(`${entry.name} is missing its tarball at ${entry.tarball}.`)
     }
     const actual = sha256File(tarball)
-    if (actual !== entry.integrity) {
+    if (actual !== entry.sha256) {
       fail(
-        `${entry.name}: ${entry.tarball} no longer matches the packed integrity (${actual} != ${entry.integrity}). Re-pack the release.`,
+        `${entry.name}: ${entry.tarball} no longer matches the packed sha256 (${actual} != ${entry.sha256}). Re-pack the release.`,
       )
     }
   }
@@ -142,7 +189,7 @@ export function createPlan(artifactsDirectory, tag) {
       name: entry.name,
       version: entry.version,
       tarball: entry.tarball,
-      integrity: entry.integrity,
+      sha256: entry.sha256,
       tag: "next",
     })),
     {
@@ -150,7 +197,7 @@ export function createPlan(artifactsDirectory, tag) {
       name: main.name,
       version: main.version,
       tarball: main.tarball,
-      integrity: main.integrity,
+      sha256: main.sha256,
       tag: "next",
     },
     { kind: "smoke", name: main.name, version: main.version },
@@ -188,7 +235,7 @@ export function formatPlan(plan) {
         ? `install ${step.name}@next from the registry and run it`
         : step.kind === "promote"
           ? `move the ${step.tag} dist-tag to ${step.version}`
-          : `${step.name}@${step.version} --tag ${step.tag} (sha256 ${step.integrity})`
+          : `${step.name}@${step.version} --tag ${step.tag} (sha256 ${step.sha256})`
     lines.push(`  ${index + 1}. ${step.kind}: ${detail}`)
   })
   return `${lines.join("\n")}\n`
@@ -316,7 +363,7 @@ export const npmRegistry = {
   },
 }
 
-/** The integrity of that version on the registry, expressed as the tarball's sha256. */
+/** The integrity the registry reports for that version, or null when absent. */
 function publishedIntegrity(registry, step) {
   const published = registry.view(step.name, step.version)
   return published ? published.integrity : null
@@ -395,9 +442,14 @@ export function publish(options, adapters = {}) {
                 `${native.name}@${native.version} is not queryable yet. The main package is never published before every platform package is available.`,
               )
             }
-            if (integrity !== native.integrity) {
+            if (
+              !matchesPublishedIntegrity(
+                join(plan.artifacts, native.tarball),
+                integrity,
+              )
+            ) {
               fail(
-                `${native.name}@${native.version} is published with different content (${integrity} != ${native.integrity}). Stopping; nothing is overwritten.`,
+                `${native.name}@${native.version} is published with different content than ${native.tarball} (registry reports ${integrity}). Stopping; nothing is overwritten.`,
               )
             }
           }
@@ -405,9 +457,14 @@ export function publish(options, adapters = {}) {
 
         const existing = publishedIntegrity(registry, step)
         if (existing !== null) {
-          if (existing !== step.integrity) {
+          if (
+            !matchesPublishedIntegrity(
+              join(plan.artifacts, step.tarball),
+              existing,
+            )
+          ) {
             fail(
-              `${step.name}@${step.version} already exists with different content (${existing} != ${step.integrity}). Publish a new version; this tool never overwrites or unpublishes.`,
+              `${step.name}@${step.version} already exists with different content than ${step.tarball} (registry reports ${existing}). Publish a new version; this tool never overwrites or unpublishes.`,
             )
           }
           write(

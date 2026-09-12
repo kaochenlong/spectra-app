@@ -482,7 +482,7 @@ export function pack(options, dependencies = {}) {
     name: SPXA_PACKAGE.name,
     version: npmVersion,
     tarball: relative(output, mainTarball),
-    integrity: sha256File(mainTarball),
+    sha256: sha256File(mainTarball),
   })
 
   for (const target of TARGETS) {
@@ -513,7 +513,7 @@ export function pack(options, dependencies = {}) {
       version: npmVersion,
       runtimeTuple: target.runtimeTuple,
       tarball: relative(output, tarball),
-      integrity: sha256File(tarball),
+      sha256: sha256File(tarball),
     })
   }
 

@@ -19,6 +19,7 @@ import {
   canPublishPackage,
   createPlan,
   formatPlan,
+  matchesPublishedIntegrity,
   parseAccountPermissions,
   parseArguments,
   publish,
@@ -34,7 +35,16 @@ afterEach(() => {
 
 const sha256 = (data: string) => createHash("sha256").update(data).digest("hex")
 
-/** A staging directory shaped like pack.mjs output, with matching tarballs and integrity. */
+/**
+ * The integrity npm actually reports: Subresource Integrity, sha512 in base64.
+ * The fake registry has to speak this shape, otherwise a comparison against a
+ * hex sha256 looks like it matches in tests and fails against the real
+ * registry.
+ */
+const registryIntegrity = (data: string) =>
+  `sha512-${createHash("sha512").update(data).digest("base64")}`
+
+/** A staging directory shaped like pack.mjs output, with matching tarballs and checksums. */
 function staging(overrides: Record<string, unknown> = {}): string {
   const root = mkdtempSync(join(tmpdir(), "spxa-publish-"))
   roots.push(root)
@@ -54,7 +64,7 @@ function staging(overrides: Record<string, unknown> = {}): string {
       name,
       version: "0.1.0",
       tarball: join("tarballs", file),
-      integrity: sha256(body),
+      sha256: sha256(body),
     }
   })
 
@@ -108,7 +118,7 @@ function fakeRegistry(published = new Map<string, string>()) {
       const body = readFileSync(tarballPath, "utf8")
       const name = body.replace("tarball bytes for ", "").trim()
       actions.push(`publish ${name}@0.1.0 --tag ${tag}`)
-      published.set(`${name}@0.1.0`, sha256(body))
+      published.set(`${name}@0.1.0`, registryIntegrity(body))
     }),
     promote: vi.fn((name: string, version: string, tag: string) => {
       actions.push(`promote ${name}@${version} ${tag}`)
@@ -205,6 +215,67 @@ describe("publish permission checks", () => {
   })
 })
 
+describe("publish integrity comparison", () => {
+  function tarball(body: string): string {
+    const root = mkdtempSync(join(tmpdir(), "spxa-integrity-"))
+    roots.push(root)
+    const path = join(root, "package.tgz")
+    writeFileSync(path, body)
+    return path
+  }
+
+  // The registry speaks Subresource Integrity. Comparing a hex sha256 of the
+  // same file against `sha512-<base64>` never matches, which turned every
+  // retry into a reported content conflict.
+  it("compares using the algorithm the registry reported", () => {
+    const body = "tarball bytes\n"
+    const path = tarball(body)
+
+    expect(matchesPublishedIntegrity(path, registryIntegrity(body))).toBe(true)
+    expect(
+      matchesPublishedIntegrity(path, registryIntegrity("other bytes\n")),
+    ).toBe(false)
+
+    // A hex sha256 is not what the registry reports, and must not be treated
+    // as a match for the same bytes.
+    expect(matchesPublishedIntegrity(path, `sha256-${sha256(body)}`)).toBe(
+      false,
+    )
+    // ...but the same digest in the registry's own encoding does match.
+    expect(
+      matchesPublishedIntegrity(
+        path,
+        `sha256-${createHash("sha256").update(body).digest("base64")}`,
+      ),
+    ).toBe(true)
+  })
+
+  it("accepts any one of several digests the registry may list", () => {
+    const body = "tarball bytes\n"
+    const path = tarball(body)
+
+    expect(
+      matchesPublishedIntegrity(
+        path,
+        `sha512-${createHash("sha512").update("other").digest("base64")} ${registryIntegrity(body)}`,
+      ),
+    ).toBe(true)
+  })
+
+  it("refuses an integrity it cannot read instead of reporting a conflict", () => {
+    const path = tarball("tarball bytes\n")
+
+    for (const unreadable of ["", "deadbeef", null, undefined, 42]) {
+      expect(
+        () => matchesPublishedIntegrity(path, unreadable as never),
+        String(unreadable),
+      ).toThrow(/cannot read/)
+    }
+    // An algorithm this runtime cannot compute is simply not a match.
+    expect(matchesPublishedIntegrity(path, "sha3999-abc")).toBe(false)
+  })
+})
+
 describe("publish plan", () => {
   it("orders platform packages before the main package, smoke and latest", () => {
     const plan = createPlan(staging(), "latest")
@@ -257,7 +328,7 @@ describe("publish plan", () => {
       "different bytes\n",
     )
     expect(() => createPlan(tampered, "next")).toThrow(
-      /no longer matches the packed integrity/,
+      /no longer matches the packed sha256/,
     )
   })
 })
@@ -406,6 +477,39 @@ describe("publish ordering", () => {
     ).toBe(false)
   })
 
+  // Scenario: Platform publication precedes main publication — the platform
+  // packages must be queryable *with matching integrity*, not merely present.
+  it("stops before the main package when a platform package holds other content", () => {
+    const directory = staging()
+    const registry = fakeRegistry()
+    // Every platform publish lands, but one of them reports foreign content
+    // when queried back.
+    const realPublish = registry.publish
+    registry.publish = vi.fn((tarballPath: string, tag: string) => {
+      realPublish(tarballPath, tag)
+      const body = readFileSync(tarballPath, "utf8")
+      if (body.includes("linux-arm64-gnu")) {
+        const name = body.replace("tarball bytes for ", "").trim()
+        registry.published.set(
+          `${name}@0.1.0`,
+          registryIntegrity("foreign bytes\n"),
+        )
+      }
+    }) as never
+
+    expect(() =>
+      publish(
+        { artifacts: directory, tag: "latest" },
+        { registry: registry as never, smoke: vi.fn(), write: () => {} },
+      ),
+    ).toThrow(/is published with different content than/)
+
+    expect(
+      registry.actions.some((action) => action.includes("publish spxa@")),
+    ).toBe(false)
+    expect(registry.promote).not.toHaveBeenCalled()
+  })
+
   it("refuses to publish when the account cannot publish every package", () => {
     const registry = fakeRegistry()
     registry.canPublish = vi.fn(
@@ -491,7 +595,7 @@ describe("publish retry", () => {
     const published = new Map<string, string>([
       [
         "@kaochenlong/spxa-darwin-arm64@0.1.0",
-        sha256("someone else's bytes\n"),
+        registryIntegrity("someone else's bytes\n"),
       ],
     ])
     const registry = fakeRegistry(published)
@@ -506,7 +610,7 @@ describe("publish retry", () => {
     expect(registry.publish).not.toHaveBeenCalled()
     expect(registry.promote).not.toHaveBeenCalled()
     expect(published.get("@kaochenlong/spxa-darwin-arm64@0.1.0")).toBe(
-      sha256("someone else's bytes\n"),
+      registryIntegrity("someone else's bytes\n"),
     )
   })
 
@@ -518,7 +622,7 @@ describe("publish retry", () => {
         throw new Error("network reset while uploading")
       }
       const name = body.replace("tarball bytes for ", "").trim()
-      registry.published.set(`${name}@0.1.0`, sha256(body))
+      registry.published.set(`${name}@0.1.0`, registryIntegrity(body))
     }) as never
 
     let message = ""
