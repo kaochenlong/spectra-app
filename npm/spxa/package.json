@@ -1,0 +1,50 @@
+{
+  "name": "spxa",
+  "version": "0.0.0-dev",
+  "description": "Spectra spec management CLI \u2014 spec-driven development from the terminal",
+  "keywords": [
+    "spectra",
+    "spec-driven-development",
+    "specification",
+    "cli"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "spxa": "bin/spxa.mjs"
+  },
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "homepage": "https://github.com/kaochenlong/spectra-app/tree/main/npm/spxa#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaochenlong/spectra-app.git",
+    "directory": "npm/spxa"
+  },
+  "bugs": {
+    "url": "https://github.com/kaochenlong/spectra-app/issues"
+  },
+  "files": [
+    "bin/spxa.mjs",
+    "launcher.mjs",
+    "target-registry.mjs",
+    "package-metadata.mjs",
+    "README.md",
+    "LICENSE"
+  ],
+  "optionalDependencies": {
+    "@5xcampus/spxa-darwin-arm64": "0.0.0-dev",
+    "@5xcampus/spxa-darwin-x64": "0.0.0-dev",
+    "@5xcampus/spxa-linux-arm64-gnu": "0.0.0-dev",
+    "@5xcampus/spxa-linux-x64-gnu": "0.0.0-dev",
+    "@5xcampus/spxa-win32-x64": "0.0.0-dev"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:distribution": "node scripts/smoke.mjs"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.2"
+  }
+}

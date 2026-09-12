@@ -1,0 +1,6 @@
+node_modules/
+# 打包產物與 Rust 交付包都不是 launcher 的原始碼
+dist/
+staging/
+artifacts/
+*.tgz

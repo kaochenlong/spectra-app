@@ -1,0 +1,130 @@
+SPXA NATIVE BINARY LICENSE AGREEMENT
+Version 1.0 — July 21, 2026
+
+Copyright (c) 2026 5xCampus. All rights reserved.
+
+This agreement applies to the compiled native executable distributed in an
+@5xcampus/spxa-* npm package (the "Native Binary"). It does not apply to the
+MIT-licensed JavaScript launcher distributed in the spxa npm package, and it
+does not replace the separate licenses that govern third-party components.
+
+By installing, copying, or using the Native Binary, you accept this agreement.
+If you do not accept it, do not install, copy, or use the Native Binary.
+
+1. License Grant
+
+Subject to this agreement, 5xCampus grants you a limited, non-exclusive,
+non-transferable license to install and execute unmodified copies of the
+Native Binary on devices that you own or control, solely for your personal or
+internal business use of the Spectra command-line functionality.
+
+You may make copies that are reasonably necessary for installation, package
+manager caching, and backup. Those copies remain subject to this agreement and
+must retain all copyright, license, and attribution notices.
+
+2. Restrictions
+
+Except to the extent expressly permitted by this agreement or by applicable
+law that cannot be restricted by contract, you may not:
+
+- publish, redistribute, sublicense, sell, rent, lease, lend, or otherwise
+  make the Native Binary available to another person or as part of another
+  product or service;
+- modify, adapt, translate, or create derivative works of the Native Binary;
+- reverse engineer, decompile, disassemble, or otherwise attempt to derive the
+  source code, algorithms, data structures, or non-public interfaces of the
+  Native Binary;
+- bypass or interfere with technical restrictions, integrity checks, access
+  controls, or licensing mechanisms associated with the Native Binary;
+- remove, alter, or obscure copyright, trademark, license, or attribution
+  notices; or
+- use the Native Binary in violation of applicable law.
+
+Nothing in this agreement limits rights that applicable law grants to the
+lawful owner of a copy and does not permit the parties to waive, including any
+right to make a necessary adaptation for use on the owner's machine or a
+necessary backup copy.
+
+3. No Source-Code License
+
+The Native Binary is licensed in compiled form only. No source code is
+provided, and no license or other right to the proprietary source code is
+granted by implication, estoppel, public availability of an npm package, or
+otherwise.
+
+4. Ownership and Marks
+
+The Native Binary is licensed, not sold. 5xCampus and its licensors retain all
+right, title, and interest in the Native Binary and all related intellectual
+property. This agreement does not grant permission to use the names,
+trademarks, logos, or branding of 5xCampus or Spectra except as necessary to
+identify the software accurately.
+
+5. Third-Party Components
+
+The Native Binary includes third-party components governed by their own
+licenses. Those components and applicable notices are identified in the
+THIRD_PARTY_NOTICES file distributed with the Native Binary. If a third-party
+license grants broader rights for its component, that license controls for
+that component only. This agreement continues to govern the proprietary
+portions of the Native Binary.
+
+6. Updates
+
+5xCampus may provide updates, replacements, or new versions of the Native
+Binary. Unless accompanied by different terms, those items are governed by
+this agreement. 5xCampus is not obligated to provide maintenance, support, or
+updates under this agreement.
+
+7. Termination
+
+This agreement terminates automatically if you materially breach it and fail
+to cure the breach where a cure is possible. Upon termination, you must stop
+using the Native Binary and delete copies under your control, except for
+copies that applicable law requires you to retain. Sections concerning
+restrictions, ownership, third-party components, disclaimers, liability, and
+general terms survive termination.
+
+8. Disclaimer of Warranties
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE NATIVE BINARY IS
+PROVIDED "AS IS" AND "AS AVAILABLE," WITHOUT WARRANTIES OF ANY KIND, WHETHER
+EXPRESS, IMPLIED, OR STATUTORY, INCLUDING WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT, ACCURACY, OR
+UNINTERRUPTED OPERATION. NOTHING IN THIS AGREEMENT EXCLUDES WARRANTIES OR
+CONSUMER RIGHTS THAT CANNOT LAWFULLY BE EXCLUDED.
+
+9. Limitation of Liability
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, 5XCAMPUS AND ITS LICENSORS
+WILL NOT BE LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR FOR LOSS OF DATA, REVENUE, PROFITS,
+GOODWILL, OR BUSINESS OPPORTUNITY, ARISING FROM OR RELATED TO THE NATIVE
+BINARY OR THIS AGREEMENT, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE AGGREGATE LIABILITY OF
+5XCAMPUS ARISING FROM OR RELATED TO THE NATIVE BINARY OR THIS AGREEMENT WILL
+NOT EXCEED THE AMOUNT YOU PAID DIRECTLY FOR THE NATIVE BINARY DURING THE
+TWELVE MONTHS BEFORE THE EVENT GIVING RISE TO THE CLAIM. IF YOU PAID NOTHING,
+THE AGGREGATE LIABILITY WILL NOT EXCEED US$10. THESE LIMITATIONS DO NOT APPLY
+TO LIABILITY THAT CANNOT LAWFULLY BE LIMITED OR EXCLUDED.
+
+10. Governing Law and Disputes
+
+This agreement is governed by the laws of Taiwan (Republic of China), without
+regard to conflict-of-law rules. The Taiwan Taipei District Court will be the
+court of first instance for disputes arising from this agreement, except where
+mandatory consumer or procedural law requires a different forum.
+
+11. General Terms
+
+If any provision is unenforceable, it will be enforced to the greatest extent
+permitted and the remaining provisions will remain effective. A failure to
+enforce a provision is not a waiver. You may not assign this agreement without
+the prior written consent of 5xCampus; 5xCampus may assign it as part of a
+merger, reorganization, or transfer of the relevant business. This agreement,
+together with any separate written terms that expressly govern your use of
+the Native Binary, is the entire agreement concerning the Native Binary.
+
+Questions about this agreement may be directed to 5xCampus through its
+official support channels.
