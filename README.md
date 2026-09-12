@@ -70,6 +70,26 @@ In Codex, invoke skills with `$` instead of `/` (for example, `$spectra-apply`).
 brew install --cask spectra-app
 ```
 
+### CLI via npm
+
+The Spectra CLI is published to npm, so you can use the spec workflow and the
+coding-agent skills without installing the desktop app:
+
+```sh
+npm install -g @kaochenlong/spxa
+spxa init
+```
+
+Requires Node.js 22.14 or newer.
+
+The command is `spxa`, not `spectra`. The desktop app installs `spectra`, and
+the two are independent channels that update separately. Native binaries for
+macOS, Linux, and Windows are installed as exact-version optional dependencies;
+nothing is downloaded during installation or at run time.
+
+See [`npm/spxa`](npm/spxa) for the supported platform matrix, what has actually
+been verified on each platform, and licensing.
+
 ## Download
 
 Get the latest release for your platform:
@@ -157,6 +177,24 @@ Spectra 的靈感來自 [OpenSpec](https://github.com/Fission-AI/OpenSpec)。最
 ```sh
 brew install --cask spectra-app
 ```
+
+### 用 npm 安裝 CLI
+
+Spectra 的 CLI 也發布在 npm 上，不裝桌面版也能使用規格流程與 coding agent 的
+skills：
+
+```sh
+npm install -g @kaochenlong/spxa
+spxa init
+```
+
+需要 Node.js 22.14 或更新版本。
+
+指令是 `spxa`，不是 `spectra`。桌面版安裝的是 `spectra`，兩者是各自獨立的通道，
+更新互不影響。macOS、Linux、Windows 的原生執行檔以精確版本的 optionalDependency
+安裝，安裝與執行過程都不會另外下載任何東西。
+
+支援平台矩陣、各平台實際驗過什麼，以及授權說明見 [`npm/spxa`](npm/spxa)。
 
 ## 下載
 
