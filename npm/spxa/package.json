@@ -34,11 +34,11 @@
     "LICENSE"
   ],
   "optionalDependencies": {
-    "@5xcampus/spxa-darwin-arm64": "0.0.0-dev",
-    "@5xcampus/spxa-darwin-x64": "0.0.0-dev",
-    "@5xcampus/spxa-linux-arm64-gnu": "0.0.0-dev",
-    "@5xcampus/spxa-linux-x64-gnu": "0.0.0-dev",
-    "@5xcampus/spxa-win32-x64": "0.0.0-dev"
+    "@kaochenlong/spxa-darwin-arm64": "0.0.0-dev",
+    "@kaochenlong/spxa-darwin-x64": "0.0.0-dev",
+    "@kaochenlong/spxa-linux-arm64-gnu": "0.0.0-dev",
+    "@kaochenlong/spxa-linux-x64-gnu": "0.0.0-dev",
+    "@kaochenlong/spxa-win32-x64": "0.0.0-dev"
   },
   "scripts": {
     "test": "vitest run",

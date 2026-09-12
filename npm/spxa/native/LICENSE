@@ -4,7 +4,7 @@ Version 1.0 — July 21, 2026
 Copyright (c) 2026 5xCampus. All rights reserved.
 
 This agreement applies to the compiled native executable distributed in an
-@5xcampus/spxa-* npm package (the "Native Binary"). It does not apply to the
+@kaochenlong/spxa-* npm package (the "Native Binary"). It does not apply to the
 MIT-licensed JavaScript launcher distributed in the spxa npm package, and it
 does not replace the separate licenses that govern third-party components.
 

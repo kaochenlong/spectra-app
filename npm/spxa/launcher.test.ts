@@ -21,7 +21,7 @@ const tempRoots: string[] = []
 /** Native package descriptor used for injection. */
 function nativePackage(executable: string) {
   return {
-    packageName: "@5xcampus/spxa-darwin-arm64",
+    packageName: "@kaochenlong/spxa-darwin-arm64",
     executable,
     npmVersion: "0.1.0",
     coreVersion: "3.0.0",
@@ -219,7 +219,7 @@ describe("spxa launcher", () => {
     })
 
     expect(stderr).toMatchInlineSnapshot(
-      `"spxa [SPXA_NATIVE_PACKAGE_MISSING]: Optional native package "@5xcampus/spxa-darwin-arm64@1.2.3" is missing. Reinstall "spxa@1.2.3" without "--omit=optional"."`,
+      `"spxa [SPXA_NATIVE_PACKAGE_MISSING]: Optional native package "@kaochenlong/spxa-darwin-arm64@1.2.3" is missing. Reinstall "spxa@1.2.3" without "--omit=optional"."`,
     )
     expect(spawn).not.toHaveBeenCalled()
   })
@@ -235,7 +235,7 @@ describe("spxa launcher", () => {
     })
 
     expect(stderr).toMatchInlineSnapshot(
-      `"spxa [SPXA_NATIVE_EXECUTABLE_MISSING]: Executable "spxa" is missing from native package "@5xcampus/spxa-darwin-arm64". Reinstall "spxa" without "--omit=optional"."`,
+      `"spxa [SPXA_NATIVE_EXECUTABLE_MISSING]: Executable "spxa" is missing from native package "@kaochenlong/spxa-darwin-arm64". Reinstall "spxa" without "--omit=optional"."`,
     )
     expect(resolvePackage).toHaveBeenCalledTimes(1)
     expect(spawn).toHaveBeenCalledTimes(1)
@@ -257,7 +257,7 @@ describe("spxa launcher", () => {
     })
 
     expect(stderr).toMatchInlineSnapshot(
-      `"spxa [SPXA_NATIVE_EXECUTABLE_NOT_EXECUTABLE]: Executable "spxa" from native package "@5xcampus/spxa-darwin-arm64" is not executable (permission denied). Check its permissions or reinstall "spxa" without "--omit=optional"."`,
+      `"spxa [SPXA_NATIVE_EXECUTABLE_NOT_EXECUTABLE]: Executable "spxa" from native package "@kaochenlong/spxa-darwin-arm64" is not executable (permission denied). Check its permissions or reinstall "spxa" without "--omit=optional"."`,
     )
     expect(resolvePackage).toHaveBeenCalledTimes(1)
     expect(spawn).toHaveBeenCalledTimes(1)
@@ -274,7 +274,7 @@ describe("spxa launcher", () => {
     })
 
     expect(stderr).toMatchInlineSnapshot(
-      `"spxa [SPXA_NATIVE_SPAWN_FAILED]: Failed to start executable "spxa" from native package "@5xcampus/spxa-darwin-arm64" (EIO: fixture I/O failure). Reinstall "spxa" without "--omit=optional" if the package is damaged."`,
+      `"spxa [SPXA_NATIVE_SPAWN_FAILED]: Failed to start executable "spxa" from native package "@kaochenlong/spxa-darwin-arm64" (EIO: fixture I/O failure). Reinstall "spxa" without "--omit=optional" if the package is damaged."`,
     )
     expect(resolvePackage).toHaveBeenCalledTimes(1)
     expect(spawn).toHaveBeenCalledTimes(1)
@@ -311,7 +311,7 @@ describe("spxa launcher", () => {
     // Name mismatch: a damaged or swapped package
     expect(() =>
       resolve({
-        name: "@5xcampus/spxa-win32-x64",
+        name: "@kaochenlong/spxa-win32-x64",
         version: "0.1.0",
         spxa: { coreVersion: "3.0.0" },
       }),
@@ -352,7 +352,7 @@ describe("spxa launcher", () => {
     const resolved = resolveNativePackage(target, {
       launcherVersion: "0.1.0",
       resolvePackageManifestPath: () =>
-        "/fixture/node_modules/@5xcampus/spxa-darwin-arm64/package.json",
+        "/fixture/node_modules/@kaochenlong/spxa-darwin-arm64/package.json",
       readManifest: () => ({
         name: target.packageName,
         version: "0.1.0",
@@ -363,7 +363,7 @@ describe("spxa launcher", () => {
     expect(resolved).toEqual({
       packageName: target.packageName,
       executable:
-        "/fixture/node_modules/@5xcampus/spxa-darwin-arm64/" +
+        "/fixture/node_modules/@kaochenlong/spxa-darwin-arm64/" +
         target.npmExecutableName,
       npmVersion: "0.1.0",
       coreVersion: "3.0.0",
@@ -420,7 +420,7 @@ describe("spxa launcher", () => {
       argv: ["--version"],
       runtime: { platform: "darwin", arch: "arm64" },
       resolvePackage: () => ({
-        packageName: "@5xcampus/spxa-darwin-arm64",
+        packageName: "@kaochenlong/spxa-darwin-arm64",
         executable: "/fixture/native/spxa",
         npmVersion: "0.1.0",
         coreVersion: "3.0.0",

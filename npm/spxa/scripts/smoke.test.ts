@@ -33,7 +33,7 @@ function report(overrides: Record<string, unknown> = {}) {
     packages: [
       { name: "spxa", version: "0.1.0", tarball: "tarballs/spxa.tgz" },
       {
-        name: "@5xcampus/spxa-darwin-arm64",
+        name: "@kaochenlong/spxa-darwin-arm64",
         version: "0.1.0",
         tarball: "tarballs/native.tgz",
       },
@@ -148,7 +148,7 @@ describe("smoke delivery selection", () => {
       expect(() =>
         selectHostTarballs(directory, readPackReport(directory), HOST_RUNTIME),
       ).toThrow(
-        /has no @5xcampus\/spxa-darwin-arm64 tarball, so this host cannot be verified/,
+        /has no @kaochenlong\/spxa-darwin-arm64 tarball, so this host cannot be verified/,
       )
     } finally {
       rmSync(sandbox.root, { recursive: true, force: true })

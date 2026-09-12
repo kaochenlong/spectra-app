@@ -41,7 +41,7 @@ function launcherDriver(fixture: string, argv: string[] = []): string {
     `  argv: ${JSON.stringify(argv)},`,
     `  runtime: { platform: "darwin", arch: "arm64" },`,
     `  resolvePackage: () => ({`,
-    `    packageName: "@5xcampus/spxa-darwin-arm64",`,
+    `    packageName: "@kaochenlong/spxa-darwin-arm64",`,
     `    executable: ${JSON.stringify(fixture)},`,
     `    npmVersion: "0.1.0",`,
     `    coreVersion: "3.0.0",`,

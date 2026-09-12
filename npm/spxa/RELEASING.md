@@ -10,7 +10,7 @@ incomplete or mismatched input, so a stage that stops is telling you something.
 
 - Node.js 22.14 or newer and npm 11.
 - Both checkouts committed. A release export refuses uncommitted sources.
-- npm authentication with publish rights for `spxa` and the `@5xcampus` scope.
+- npm authentication with publish rights for `spxa` and the `@kaochenlong` scope.
 - A container image for the Linux targets, pinned by digest. `rust:1.92-bullseye`
   is the current choice: bullseye is glibc 2.31, the declared Linux minimum.
 
@@ -159,7 +159,7 @@ unpublish and do not republish a version with different content.
 
 - Node.js 22.14 或更新版本，以及 npm 11。
 - 兩個 checkout 都已提交。正式匯出會拒絕未提交的原始碼。
-- npm 已登入，且對 `spxa` 與 `@5xcampus` scope 有發布權限。
+- npm 已登入，且對 `spxa` 與 `@kaochenlong` scope 有發布權限。
 - Linux target 用的容器 image，必須以 digest 釘住。目前選 `rust:1.92-bullseye`：
   bullseye 就是 glibc 2.31，也就是宣告的 Linux 最低環境。
 

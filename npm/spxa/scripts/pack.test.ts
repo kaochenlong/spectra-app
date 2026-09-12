@@ -201,7 +201,7 @@ describe("pack delivery verification", () => {
     })
 
     expect(() => verifyDelivery(directory)).toThrow(
-      /missing x86_64-pc-windows-msvc \(@5xcampus\/spxa-win32-x64\)/,
+      /missing x86_64-pc-windows-msvc \(@kaochenlong\/spxa-win32-x64\)/,
     )
   })
 
@@ -409,7 +409,7 @@ describe("pack produces inspected tarballs", () => {
     expect(report.dirty).toBe(true)
     expect(report.packages.map((entry) => entry.name)).toEqual([
       "spxa",
-      "@5xcampus/spxa-darwin-arm64",
+      "@kaochenlong/spxa-darwin-arm64",
     ])
   }, 120_000)
 

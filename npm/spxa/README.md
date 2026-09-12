@@ -46,13 +46,13 @@ command into an `npx` call.
 
 ## Supported platforms
 
-| Runtime tuple       | Native package                   | Minimum environment | Verification                       |
-| ------------------- | -------------------------------- | ------------------- | ---------------------------------- |
-| `darwin-arm64`      | `@5xcampus/spxa-darwin-arm64`    | macOS 13            | Installed and run on a newer macOS |
-| `darwin-x64`        | `@5xcampus/spxa-darwin-x64`      | macOS 13            | Built only                         |
-| `linux-arm64-glibc` | `@5xcampus/spxa-linux-arm64-gnu` | glibc 2.31          | Installed and run on glibc 2.31    |
-| `linux-x64-glibc`   | `@5xcampus/spxa-linux-x64-gnu`   | glibc 2.31          | Installed and run on glibc 2.31    |
-| `win32-x64`         | `@5xcampus/spxa-win32-x64`       | Windows 10 x64      | Built only                         |
+| Runtime tuple       | Native package                      | Minimum environment | Verification                       |
+| ------------------- | ----------------------------------- | ------------------- | ---------------------------------- |
+| `darwin-arm64`      | `@kaochenlong/spxa-darwin-arm64`    | macOS 13            | Installed and run on a newer macOS |
+| `darwin-x64`        | `@kaochenlong/spxa-darwin-x64`      | macOS 13            | Built only                         |
+| `linux-arm64-glibc` | `@kaochenlong/spxa-linux-arm64-gnu` | glibc 2.31          | Installed and run on glibc 2.31    |
+| `linux-x64-glibc`   | `@kaochenlong/spxa-linux-x64-gnu`   | glibc 2.31          | Installed and run on glibc 2.31    |
+| `win32-x64`         | `@kaochenlong/spxa-win32-x64`       | Windows 10 x64      | Built only                         |
 
 "Installed and run" means the published tarballs were installed into an isolated
 prefix on that runtime and the CLI was exercised there: `--help`, `--version`,
@@ -110,7 +110,7 @@ inside your project. It has nothing to do with updating `spxa` itself.
 ## Licensing
 
 - The JavaScript launcher in the `spxa` package is MIT licensed.
-- The `@5xcampus/spxa-*` packages contain publicly downloadable proprietary
+- The `@kaochenlong/spxa-*` packages contain publicly downloadable proprietary
   binaries, governed by the `LICENSE` file included in each package.
 - Third-party components inside each native binary remain under the licences
   listed in that package's `THIRD_PARTY_NOTICES`.
@@ -174,13 +174,13 @@ npx spxa init
 
 ## 支援平台
 
-| Runtime tuple       | 平台套件                         | 最低環境       | 驗收狀態                     |
-| ------------------- | -------------------------------- | -------------- | ---------------------------- |
-| `darwin-arm64`      | `@5xcampus/spxa-darwin-arm64`    | macOS 13       | 已安裝並執行（較新的 macOS） |
-| `darwin-x64`        | `@5xcampus/spxa-darwin-x64`      | macOS 13       | 僅建置                       |
-| `linux-arm64-glibc` | `@5xcampus/spxa-linux-arm64-gnu` | glibc 2.31     | 已在 glibc 2.31 安裝並執行   |
-| `linux-x64-glibc`   | `@5xcampus/spxa-linux-x64-gnu`   | glibc 2.31     | 已在 glibc 2.31 安裝並執行   |
-| `win32-x64`         | `@5xcampus/spxa-win32-x64`       | Windows 10 x64 | 僅建置                       |
+| Runtime tuple       | 平台套件                            | 最低環境       | 驗收狀態                     |
+| ------------------- | ----------------------------------- | -------------- | ---------------------------- |
+| `darwin-arm64`      | `@kaochenlong/spxa-darwin-arm64`    | macOS 13       | 已安裝並執行（較新的 macOS） |
+| `darwin-x64`        | `@kaochenlong/spxa-darwin-x64`      | macOS 13       | 僅建置                       |
+| `linux-arm64-glibc` | `@kaochenlong/spxa-linux-arm64-gnu` | glibc 2.31     | 已在 glibc 2.31 安裝並執行   |
+| `linux-x64-glibc`   | `@kaochenlong/spxa-linux-x64-gnu`   | glibc 2.31     | 已在 glibc 2.31 安裝並執行   |
+| `win32-x64`         | `@kaochenlong/spxa-win32-x64`       | Windows 10 x64 | 僅建置                       |
 
 「已安裝並執行」是指：把發布的 tarball 安裝到那個 runtime 上的隔離 prefix，並在
 那裡實際執行 `--help`、`--version`、`init`、`update`、各個 `--json` handler 與
@@ -230,7 +230,7 @@ npm install --save-dev spxa@latest      # 更新專案依賴
 ## 授權
 
 - `spxa` 套件裡的 JavaScript launcher 採 MIT 授權。
-- `@5xcampus/spxa-*` 套件內含可公開下載的專有二進位檔，適用各套件內附的
+- `@kaochenlong/spxa-*` 套件內含可公開下載的專有二進位檔，適用各套件內附的
   `LICENSE`。
 - 每個原生執行檔中的第三方元件，仍適用該套件 `THIRD_PARTY_NOTICES` 所列的授權。
 - 安裝公開的二進位檔，不代表取得 Spectra 專有 Rust 原始碼的存取權或任何權利。

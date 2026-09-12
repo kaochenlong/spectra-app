@@ -24,7 +24,7 @@ export const TARGETS = Object.freeze(
   [
     {
       runtimeTuple: "darwin-arm64",
-      packageName: "@5xcampus/spxa-darwin-arm64",
+      packageName: "@kaochenlong/spxa-darwin-arm64",
       rustTarget: "aarch64-apple-darwin",
       os: "darwin",
       cpu: "arm64",
@@ -35,7 +35,7 @@ export const TARGETS = Object.freeze(
     },
     {
       runtimeTuple: "darwin-x64",
-      packageName: "@5xcampus/spxa-darwin-x64",
+      packageName: "@kaochenlong/spxa-darwin-x64",
       rustTarget: "x86_64-apple-darwin",
       os: "darwin",
       cpu: "x64",
@@ -46,7 +46,7 @@ export const TARGETS = Object.freeze(
     },
     {
       runtimeTuple: "linux-arm64-glibc",
-      packageName: "@5xcampus/spxa-linux-arm64-gnu",
+      packageName: "@kaochenlong/spxa-linux-arm64-gnu",
       rustTarget: "aarch64-unknown-linux-gnu",
       os: "linux",
       cpu: "arm64",
@@ -57,7 +57,7 @@ export const TARGETS = Object.freeze(
     },
     {
       runtimeTuple: "linux-x64-glibc",
-      packageName: "@5xcampus/spxa-linux-x64-gnu",
+      packageName: "@kaochenlong/spxa-linux-x64-gnu",
       rustTarget: "x86_64-unknown-linux-gnu",
       os: "linux",
       cpu: "x64",
@@ -68,7 +68,7 @@ export const TARGETS = Object.freeze(
     },
     {
       runtimeTuple: "win32-x64",
-      packageName: "@5xcampus/spxa-win32-x64",
+      packageName: "@kaochenlong/spxa-win32-x64",
       rustTarget: "x86_64-pc-windows-msvc",
       os: "win32",
       cpu: "x64",
