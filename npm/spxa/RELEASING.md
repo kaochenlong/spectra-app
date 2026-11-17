@@ -16,26 +16,41 @@ incomplete or mismatched input, so a stage that stops is telling you something.
 
 ## 1. Export the delivery (private repository)
 
-The native executables and their manifest come from the private Spectra
-repository. Run this there, pointing `--launcher-root` at your checkout of this
-directory:
+First regenerate the third-party notices, so they list exactly what the native
+executables contain. Run this in the private repository:
 
 ```sh
-pnpm tsx scripts/build-spxa.ts \
-  --launcher-root ../spectra-app/npm/spxa \
-  --output dist/spxa \
-  --version 0.1.1 \
-  --linux-builder aarch64-unknown-linux-gnu=rust:1.92-bullseye@sha256:da16965797a8261d77679fdc55d52f7325778206fe55ccdb07f524506fa5a81c \
-  --linux-builder x86_64-unknown-linux-gnu=rust:1.92-bullseye@sha256:1457d2d4c17744866d70ed32edf4165808ab3d712db473d682ecd715faa3ffe4
+pnpm tsx scripts/generate-spxa-notices.ts --launcher-root ../spectra-app/npm/spxa
 ```
 
-- `--version` is the npmVersion for this release. It is an explicit input; it is
-  never derived from a Rust file.
-- Omitting `--target` requires the full five-target matrix.
-- A floating tag such as `rust:latest` is refused: a glibc compatibility claim
-  needs a pinned builder.
+- It rewrites `native/THIRD_PARTY_NOTICES` in this directory from what
+  `cargo tree -p spxa` reports on every target, and records the SHA-256 of the
+  private repository's `src-tauri/Cargo.lock`. The same Cargo.lock always
+  produces the same bytes, so an empty `git diff` means the notices were current.
+- A package without a license file stops the run and nothing is written.
+- Review the diff and commit this repository before exporting. The export stops
+  when the hash the notices record differs from the Cargo.lock it builds from
+  (with `--reuse-artifacts`, the Cargo.lock at the reused core revision), in
+  release and `--development` mode alike.
+
+The native executables and their manifest also come from the private Spectra
+repository. Run this there:
+
+```sh
+make build spxa VERSION=0.1.1
+```
+
+- `VERSION` is the npmVersion for this release. It is an explicit input; it is
+  never derived from a Rust file. Omitting it stops the run.
+- The delivery is written to `dist/spxa-<version>` in the private repository.
+- The Linux builder images come from `scripts/spxa-builders.json` there, so no
+  digest is typed on the command line. A floating tag such as `rust:latest` is
+  refused: a glibc compatibility claim needs a pinned builder. Change the pin in
+  that file.
+- The target builds the full five-target matrix. For a subset, run the
+  underlying `scripts/build-spxa.ts` directly with repeated `--target` values.
 - `--development` produces an explicitly dirty local package for verification
-  only. It can never be published.
+  only. It can never be published; pass it to the script directly.
 
 For a launcher-only release, reuse the verified native bytes instead of
 rebuilding:
@@ -45,7 +60,7 @@ pnpm tsx scripts/build-spxa.ts \
   --launcher-root ../spectra-app/npm/spxa \
   --output dist/spxa-0.1.2 \
   --version 0.1.2 \
-  --reuse-artifacts dist/spxa
+  --reuse-artifacts dist/spxa-0.1.1
 ```
 
 The previous delivery's manifest, every checksum, and its core identity are
@@ -55,7 +70,7 @@ verified before anything is reused. `--reuse-artifacts` cannot be combined with
 ## 2. Pack the tarballs
 
 ```sh
-node scripts/pack.mjs --artifacts ../../spectra/dist/spxa --output dist/pack --version 0.1.1
+node scripts/pack.mjs --artifacts ../../spectra/dist/spxa-0.1.1 --output dist/pack --version 0.1.1
 ```
 
 This verifies the matrix, the version, every checksum, the compatibility data
@@ -166,22 +181,34 @@ unpublish and do not republish a version with different content.
 
 ## 1. 匯出交付包（私有 repo）
 
-原生執行檔與它的 manifest 來自私有的 Spectra repo。在那邊執行，`--launcher-root`
-指向你的這個目錄的 checkout：
+先重新產生第三方授權清單，讓它列的剛好是原生執行檔裡的東西。在私有 repo 執行：
 
 ```sh
-pnpm tsx scripts/build-spxa.ts \
-  --launcher-root ../spectra-app/npm/spxa \
-  --output dist/spxa \
-  --version 0.1.1 \
-  --linux-builder aarch64-unknown-linux-gnu=rust:1.92-bullseye@sha256:da16965797a8261d77679fdc55d52f7325778206fe55ccdb07f524506fa5a81c \
-  --linux-builder x86_64-unknown-linux-gnu=rust:1.92-bullseye@sha256:1457d2d4c17744866d70ed32edf4165808ab3d712db473d682ecd715faa3ffe4
+pnpm tsx scripts/generate-spxa-notices.ts --launcher-root ../spectra-app/npm/spxa
 ```
 
-- `--version` 就是這次的 npmVersion，是明確的輸入，不從任何 Rust 檔案推導。
-- 不給 `--target` 就要求完整的五平台矩陣。
-- `rust:latest` 這種浮動 tag 會被拒絕：glibc 相容性宣稱需要釘住的 builder。
-- `--development` 產生明確標記為 dirty 的本機驗證包，永遠不能被發布。
+- 它依 `cargo tree -p spxa` 在每個 target 上回報的套件，改寫這個目錄的
+  `native/THIRD_PARTY_NOTICES`，並記錄私有 repo `src-tauri/Cargo.lock` 的 SHA-256。
+  同一份 Cargo.lock 產生的內容每次都一樣，所以 `git diff` 沒有變化就代表清單本來就是最新的。
+- 有套件找不到授權檔時會停下來，什麼都不寫。
+- 看過 diff 後，先 commit 這個 repo 再匯出。清單記錄的雜湊跟這次建置用的 Cargo.lock
+  不同時（用 `--reuse-artifacts` 時，比的是被重用 core revision 當時的 Cargo.lock），
+  匯出會停下來，正式模式與 `--development` 都一樣。
+
+原生執行檔與它的 manifest 也來自私有的 Spectra repo。在那邊執行：
+
+```sh
+make build spxa VERSION=0.1.1
+```
+
+- `VERSION` 就是這次的 npmVersion，是明確的輸入，不從任何 Rust 檔案推導；沒給就會停下來。
+- 交付包會寫到私有 repo 的 `dist/spxa-<version>`。
+- Linux builder image 來自那邊的 `scripts/spxa-builders.json`，所以不需要在命令列打任何
+  digest。`rust:latest` 這種浮動 tag 會被拒絕：glibc 相容性宣稱需要釘住的 builder；要換
+  pin 就改那個檔案。
+- 這個 target 會建完整的五平台矩陣。只要其中幾個的話，直接執行底層的
+  `scripts/build-spxa.ts` 並重複給 `--target`。
+- `--development` 產生明確標記為 dirty 的本機驗證包，永遠不能被發布；這個參數直接給腳本。
 
 只改 launcher 的發佈，重用已驗證的原生位元、不要重新建置：
 
@@ -190,7 +217,7 @@ pnpm tsx scripts/build-spxa.ts \
   --launcher-root ../spectra-app/npm/spxa \
   --output dist/spxa-0.1.2 \
   --version 0.1.2 \
-  --reuse-artifacts dist/spxa
+  --reuse-artifacts dist/spxa-0.1.1
 ```
 
 重用之前會先驗證前一份交付包的 manifest、每一個 checksum 與 core identity。
@@ -199,7 +226,7 @@ pnpm tsx scripts/build-spxa.ts \
 ## 2. 打包 tarball
 
 ```sh
-node scripts/pack.mjs --artifacts ../../spectra/dist/spxa --output dist/pack --version 0.1.1
+node scripts/pack.mjs --artifacts ../../spectra/dist/spxa-0.1.1 --output dist/pack --version 0.1.1
 ```
 
 打包之前會先驗證矩陣、版本、每個 checksum、相容性資料與 source identity。每個
