@@ -1,5 +1,133 @@
 # Changelog
 
+## 3.1.0
+
+### Breaking Changes
+
+- Removed the experimental `specx` command-line tool. Its install scripts and updates have stopped; use the npm version, `spxa`, instead. `cli_command: specx` in `.spectra.yaml` is automatically treated as `spxa`.
+
+### Interface
+
+- You can now open a project by dragging a folder onto the Spectra window. On macOS, you can also drop it on the Spectra icon in the Dock.
+- When the folder isn't under Git yet, "Initialize Spectra" now offers a "Create a Git repository" option, checked by default.
+- Added "Reveal in Finder" ("Reveal in File Explorer" on Windows) to the right-click menu of project icons in the left sidebar.
+- Project icons can now be SVG files.
+- Canceling "Initialize Spectra" now closes the project that hasn't been initialized and removes it from "Recent Projects".
+- Replaced the "S" at the top of the left sidebar with the Spectra logo.
+
+### CLI
+
+- Added an npm version of the CLI: install it with `npm install -g @kaochenlong/spxa`, and the command is `spxa`. It doesn't need the desktop app and works on Linux too.
+- Added `spectra rename <old-name> <new-name>` to rename a change; its related records move along with it.
+- Added `spectra coverage <change>`, which lists whether each scenario has a corresponding test.
+- `spectra task start` and `spectra task done` now accept the task numbers written in tasks.md, such as `2.1`.
+- `spectra archive --preview` and the desktop app's archive confirmation dialog now list the reasons an archive would be blocked when it runs.
+- `spectra decisions` now also lists Non-Goals, along with the contents of parked changes.
+- `spectra analyze` now flags mistakes in task dependencies in tasks.md, such as pointing to a task that doesn't exist or two tasks waiting on each other.
+- `spectra validate --specs` now warns about specs whose Purpose hasn't been written yet.
+- Running `spectra status`, `spectra instructions`, or `spectra scope` with the name of an archived change now explains that it has been archived and which directory its files are in.
+- When run without `--tools`, `spectra init` now explains that no coding agent files were generated this time and lists the agents you can specify.
+
+### SDD Skills
+
+- Before making suggestions or writing design decisions, `/spectra-discuss` and `/spectra-propose` now check past decisions and Non-Goals. If one of them would be overturned, they say so first and leave the decision to you.
+- After it finishes, `/spectra-propose` translates the English specs into the project's language. Click "Translation" in the "Specs" tab on the Changes page to switch to the translated version.
+- `/spectra-apply` checks off implementation tasks as soon as the code is done, and lists the items that need your own acceptance separately.
+- When requirements change partway through apply, the agent now updates the plan with `/spectra-ingest` instead of entering plan mode on its own and interrupting you.
+- `/spectra-debug` doesn't change files without your consent. After investigating, it reports the cause and a suggested fix, and lets you decide whether to fix it now, fold it into an existing change, or open a new change.
+- `/spectra-verify` now tells apart requirements that a change removes or renames, and doesn't treat them as unimplemented.
+- When fixing a problem, the agent fixes the root cause instead of settling for a quick patch that only treats the symptom because the real fix takes more work.
+- When `/spectra-apply` writes a test, it notes above the test which scenario it verifies, so you can check with `spectra coverage`.
+- With TDD on, tests verify actual behavior; tests that only check fixed copy or layout are no longer required.
+- With "Security Audit" on, `/spectra-apply` loads the full security checklist.
+- When a change is too large and gets split into several, the ones that must be done in order get a `01-`, `02-` prefix in their names.
+- When a coding agent can't find the `spectra` command (for example, because the agent was started before Spectra), it now runs it from the default install location and reminds you to fully quit the agent and start it again.
+
+### Fixes
+
+- Fixed the Windows installer showing "Error opening file for writing" when a terminal or coding agent was running `spectra` during an update, leaving the CLI on the old version.
+- Fixed `spectra <folder>` in a terminal sometimes not opening the project when the desktop app was already open.
+- Fixed reinitializing a project (`spectra init --force` or initializing from the desktop app) overwriting the entire `config.yaml` in the spec directory with the default content.
+- Fixed creating a change with the name of a parked change overwriting the parked one. It's now refused, with a hint to restore it with `spectra unpark <name>`.
+- Fixed "Base Font Size" in Settings having no effect on the content of change details and the Specs page since 3.0.0.
+- Fixed the "Merged" times in the "Completed changes" list all becoming the same after a project was cloned or copied.
+- Fixed initialization failures showing nothing on screen; an error message is now displayed.
+- Fixed layout issues:
+  - Change detail headers squeezed to one character per line when the window is narrow.
+  - Project icons without a custom icon squashed when the window isn't tall enough.
+  - The buttons at the bottom of the left sidebar not staying at the bottom when no project is open.
+  - The traffic-light buttons at the top left of the window not vertically centered on macOS.
+- Fixed Spectra still writing no-longer-used vector search entries to `.gitignore`; opening a project now also removes the ones written earlier.
+- Fixed `spectra new artifact spec` rejecting capability names that other commands accept.
+- Fixed the file list written into specs at archive time (`@trace`) picking up edits from other changes or unrelated edits in the same working directory. When `spectra task done` records exist, it now lists only the files this change modified.
+- Fixed `spectra drift` lowering the score of changes that weren't behind.
+- Fixed the creator and archiver recorded for a change using the identity from the global settings in some git repos, instead of the identity the repo actually uses.
+- Fixed some records not moving along when renaming a change in the desktop app.
+
+---
+
+### Breaking Changes
+
+- 移除 實驗性的 `specx` 命令列工具，安裝腳本與更新都已停止，請改用 npm 版的 `spxa`。`.spectra.yaml` 裡的 `cli_command: specx` 會自動當成 `spxa`。
+
+### 介面
+
+- 新增 把資料夾拖進 Spectra 視窗就能開啟專案；macOS 也可以拖到 Dock 上的 Spectra 圖示。
+- 新增 「初始化 Spectra」視窗在資料夾還沒用 Git 管理時，會多一個「建立 Git repository」選項，預設勾選。
+- 新增 左側欄的專案圖示按右鍵，可以「在 Finder 中顯示」（Windows 是「在檔案總管中顯示」）。
+- 新增 專案圖示可以使用 SVG 檔。
+- 調整 在「初始化 Spectra」視窗按取消，會關掉這個還沒初始化的專案，並從「最近專案」移除。
+- 調整 左側欄最上方的「S」換成 Spectra 的 logo。
+
+### CLI
+
+- 新增 npm 版的 CLI：用 `npm install -g @kaochenlong/spxa` 安裝，指令是 `spxa`，不用裝桌面版，Linux 也能用。
+- 新增 `spectra rename <舊名稱> <新名稱>` 幫 change 改名，相關紀錄會一起搬過去。
+- 新增 `spectra coverage <change>`，列出每個情境（scenario）有沒有對應的測試。
+- 調整 `spectra task start`、`spectra task done` 可以直接用 tasks.md 裡的任務編號，例如 `2.1`。
+- 調整 `spectra archive --preview` 和桌面版的封存確認視窗，會先列出執行時會被擋下的原因。
+- 調整 `spectra decisions` 也會列出 Non-Goals，以及暫存中 change 的內容。
+- 調整 `spectra analyze` 會提醒 tasks.md 裡寫錯的任務依賴，例如指到不存在的任務，或兩個任務互相等待。
+- 調整 `spectra validate --specs` 會提醒 Purpose 還沒寫的規格。
+- 調整 用已封存的 change 名稱執行 `spectra status`、`spectra instructions`、`spectra scope` 時，會說明它已經封存，以及檔案在哪個目錄。
+- 調整 `spectra init` 沒加 `--tools` 時，會說明這次沒有產生 coding agent 的檔案，並列出可以指定的 agent。
+
+### SDD Skill
+
+- `/spectra-discuss`、`/spectra-propose` 給建議或寫設計決策之前，會先查過去的決策與 Non-Goals；要推翻其中一條時會先講出來，由你決定。
+- `/spectra-propose` 寫完後，會把英文的規格翻成專案的語言，在變更頁的「規格」分頁按「翻譯」就能切換閱讀。
+- `/spectra-apply` 程式寫完就勾掉實作任務，需要你親自驗收的項目另外列出來。
+- apply 做到一半改需求時，agent 會用 `/spectra-ingest` 更新計畫，不會再自己進 plan mode 打斷你。
+- `/spectra-debug` 沒有你的同意不會改檔案；查完會回報原因和建議的修法，讓你決定現在修、併進既有的 change，或開新的 change。
+- `/spectra-verify` 會分辨 change 裡刪掉或改名的需求，不把它們當成還沒實作。
+- agent 修問題時會修在根本原因上，不會因為比較費工就改用治標的做法。
+- `/spectra-apply` 寫測試時，會在測試上方註明它驗證哪個情境，可以用 `spectra coverage` 核對。
+- 開啟 TDD 時，測試會去驗證實際的行為；只檢查固定文案或版面的測試不再要求撰寫。
+- 開啟安全審查時，`/spectra-apply` 會載入完整的安全檢查清單。
+- change 太大要拆成好幾個時，有先後關係的會在名稱前加上 `01-`、`02-`。
+- coding agent 找不到 `spectra` 指令時（例如 agent 比 Spectra 早開），會改用預設的安裝位置執行，並提醒你把 agent 完全結束後再開。
+
+### 修正
+
+- 修正 Windows 更新時，如果終端機或 coding agent 正在執行 `spectra`，安裝程式會跳出「Error opening file for writing」，CLI 停在舊版的問題。
+- 修正 桌面版已經開著時，在終端機執行 `spectra <資料夾>` 有時不會開啟該專案的問題。
+- 修正 重新初始化專案時（`spectra init --force` 或桌面版的初始化），規格目錄裡的 `config.yaml` 會被整份蓋回預設內容的問題。
+- 修正 用暫存中 change 的名稱再建立一次 change，會蓋掉暫存的那份；現在會擋下來，並提示用 `spectra unpark <名稱>` 取回。
+- 修正 設定頁的「基礎字級」在 3.0.0 之後，對變更詳情與規格頁的內文沒有作用的問題。
+- 修正 「已完成的變更」列表的合併時間，在 clone 或複製專案之後全部變成同一個時間的問題。
+- 修正 初始化失敗時畫面上沒有任何提示，現在會顯示錯誤訊息。
+- 修正 版面：
+  - 視窗變窄時，變更詳情的標題被擠成一字一行。
+  - 視窗不夠高時，沒有自訂圖示的專案圖示被壓扁。
+  - 還沒開啟任何專案時，左側欄底部的按鈕沒有貼齊底部。
+  - macOS 視窗左上角的紅綠燈沒有垂直置中。
+- 修正 Spectra 仍會在 `.gitignore` 寫入已經用不到的向量搜尋設定；開啟專案時也會清掉之前寫進去的。
+- 修正 `spectra new artifact spec` 拒絕其他指令都接受的 capability 名稱的問題。
+- 修正 封存時寫進規格的檔案清單（`@trace`），會把同一個工作目錄裡其他 change 或無關的修改也算進來的問題；有 `spectra task done` 的紀錄時，現在只列這個 change 改過的檔案。
+- 修正 `spectra drift` 會替沒有落後的 change 扣分的問題。
+- 修正 change 記錄的建立者與封存者，在部分 git repo 裡會用到全域設定的身分，而不是這個 repo 實際使用的身分。
+- 修正 桌面版幫 change 改名時，有部分紀錄沒有跟著搬過去的問題。
+
 ## 3.0.0
 
 ### Breaking Changes
