@@ -70,7 +70,7 @@ verified before anything is reused. `--reuse-artifacts` cannot be combined with
 ## 2. Pack the tarballs
 
 ```sh
-node scripts/pack.mjs --artifacts ../../spectra/dist/spxa-0.1.1 --output dist/pack --version 0.1.1
+node scripts/pack.mjs --artifacts ../../../spectra/dist/spxa-0.1.1 --output dist/pack --version 0.1.1
 ```
 
 This verifies the matrix, the version, every checksum, the compatibility data
@@ -226,7 +226,7 @@ pnpm tsx scripts/build-spxa.ts \
 ## 2. 打包 tarball
 
 ```sh
-node scripts/pack.mjs --artifacts ../../spectra/dist/spxa-0.1.1 --output dist/pack --version 0.1.1
+node scripts/pack.mjs --artifacts ../../../spectra/dist/spxa-0.1.1 --output dist/pack --version 0.1.1
 ```
 
 打包之前會先驗證矩陣、版本、每個 checksum、相容性資料與 source identity。每個
